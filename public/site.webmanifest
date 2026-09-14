@@ -1,0 +1,14 @@
+{
+  "name": "Plainly",
+  "short_name": "Plainly",
+  "description": "AI agent that turns plain language into onchain transactions on Robinhood Chain.",
+  "start_url": "/app",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#063424",
+  "icons": [
+    { "src": "/brand/logo-500.png", "sizes": "500x500", "type": "image/png", "purpose": "any" },
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

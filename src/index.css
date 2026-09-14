@@ -1,0 +1,99 @@
+@import '@fontsource-variable/inter';
+@import 'tailwindcss';
+
+@theme {
+  --font-body: 'Inter Variable', 'Inter', -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  --font-sans: var(--font-body);
+
+  --max-width-container: 1280px;
+
+  --text-md: 1rem;
+  --text-md--line-height: 1.5rem;
+  --text-display-xs: 1.5rem;
+  --text-display-xs--line-height: 2rem;
+  --text-display-sm: 1.875rem;
+  --text-display-sm--line-height: 2.375rem;
+  --text-display-md: 2.25rem;
+  --text-display-md--line-height: 2.75rem;
+  --text-display-md--letter-spacing: -0.72px;
+  --text-display-lg: 3rem;
+  --text-display-lg--line-height: 3.75rem;
+  --text-display-lg--letter-spacing: -0.96px;
+  --text-display-2xl: 5rem;
+  --text-display-2xl--line-height: 5.75rem;
+  --text-display-2xl--letter-spacing: -3px;
+
+  /* Plainly brand: deep evergreen ink + mint panels + cream fills */
+  --color-brand-50: #eefaf2;
+  --color-brand-100: #d9f3e2;
+  --color-brand-200: #b4e6c6;
+  --color-brand-300: #7fd4a0;
+  --color-brand-500: #16a060;
+  --color-brand-600: #0d8250;
+  --color-brand-700: #0a6340;
+  --color-brand-800: #084b32;
+  --color-brand-900: #063424;
+  --color-ink: #0b1f17;
+  --color-ink-soft: #243630;
+  --color-muted: #56655e;
+  --color-lime: #d4f36b;
+  --color-cream: #fff8ea;
+  --color-mist: #f6f9f6;
+  --color-line: #dfe6e1;
+
+  --shadow-skeumorphic: 0px 0px 0px 1px #0a120d2e inset, 0px -2px 0px 0px #0a120d0d inset, 0px 1px 2px 0 #0a120d0d;
+
+  --animate-marquee: marquee 48s linear infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+}
+
+@layer base {
+  html,
+  body {
+    overflow-x: clip;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: var(--font-body);
+    color: var(--color-ink);
+    background: #fff;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: var(--color-lime);
+    color: var(--color-ink);
+  }
+}
+
+.panel-gradient {
+  background: linear-gradient(180deg, #d7f4e1 0%, #b3e0c6 100%);
+}
+
+.hero-gradient {
+  background:
+    radial-gradient(60% 55% at 0% 0%, #fff4df 0%, transparent 70%),
+    linear-gradient(180deg, #eaf5ee 0%, #d9ede1 100%);
+}
+
+.btn-sheen {
+  background-image:
+    linear-gradient(120deg, transparent 0 62%, rgb(255 255 255 / 0.09) 62% 100%),
+    linear-gradient(300deg, transparent 0 78%, rgb(0 0 0 / 0.14) 78% 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
