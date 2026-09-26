@@ -1,1 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="16" fill="#063424"/><path d="M16 22a8 8 0 0 1 8-8h16a8 8 0 0 1 8 8v12a8 8 0 0 1-8 8h-9l-9 8v-8.6A8 8 0 0 1 16 34V22Z" fill="#D4F36B"/><path d="M25 28h14M32 21v14" stroke="#063424" stroke-width="4" stroke-linecap="round"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="64" height="64"><g transform="translate(0 0) scale(1)">
+  <defs><linearGradient id="tf-fav" x1="2" y1="3" x2="30" y2="26" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#9945ff"/><stop offset="1" stop-color="#55e9ab"/></linearGradient></defs>
+  <path d="M7 3h18a5 5 0 0 1 5 5v13a5 5 0 0 1-5 5H14.5L8 31v-5H7a5 5 0 0 1-5-5V8a5 5 0 0 1 5-5Z" fill="url(#tf-fav)"/>
+  <rect x="9.4" y="15.6" width="3.4" height="5.4" rx="1.7" fill="#0b0a10"/><rect x="14.3" y="12.4" width="3.4" height="8.6" rx="1.7" fill="#0b0a10"/><rect x="19.2" y="9" width="3.4" height="12" rx="1.7" fill="#0b0a10"/>
+</g></svg>

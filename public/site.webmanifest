@@ -1,12 +1,12 @@
 {
-  "name": "Plainly",
-  "short_name": "Plainly",
-  "description": "AI agent that turns plain language into onchain transactions on Robinhood Chain.",
+  "name": "TalkenFi",
+  "short_name": "TalkenFi",
+  "description": "AI agent that turns plain language into onchain transactions on Solana.",
   "start_url": "/app",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#063424",
+  "background_color": "#0b0a10",
+  "theme_color": "#0b0a10",
   "icons": [
     { "src": "/brand/logo-500.png", "sizes": "500x500", "type": "image/png", "purpose": "any" },
     { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }

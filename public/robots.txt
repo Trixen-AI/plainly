@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /app
 
-Sitemap: https://plainly.chat/sitemap.xml
+Sitemap: https://talkenhub.xyz/sitemap.xml

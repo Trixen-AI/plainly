@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { NavLink, Outlet, useLocation, useParams } from 'react-router'
-import { OFFICIAL_LOGOS } from '@/assets/logos'
+import { ProtocolLogo } from '@/components/ProtocolLogo'
 import { DOC_GROUPS, docBySlug, docs, type DocBlock } from '@/data/docs'
-import { ArrowIcon, BrandLogo, Container, Rich, SmartLink } from '@/components/ui/primitives'
+import { ArrowIcon, Container, Rich, SmartLink } from '@/components/ui/primitives'
 import { NotFound } from '@/pages/NotFound'
 import { useSeo } from '@/lib/seo'
 import { cn } from '@/lib/utils'
@@ -22,7 +22,7 @@ function DocsSearch({ query, setQuery }: { query: string; setQuery: (v: string) 
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search docs"
-        className="h-10 w-full rounded-xl border border-line bg-white pr-3 pl-9 text-sm text-ink placeholder:text-muted focus:border-brand-300 focus:ring-2 focus:ring-brand-100 focus:outline-none"
+        className="h-10 w-full rounded-xl border border-line bg-surface pr-3 pl-9 text-sm text-ink placeholder:text-muted focus:border-brand-300 focus:ring-2 focus:ring-brand-100 focus:outline-none"
       />
     </label>
   )
@@ -94,9 +94,9 @@ export function DocsLayout() {
   const current = docBySlug[pathname.split('/')[2] ?? '']
 
   return (
-    <main className="bg-white">
+    <main className="bg-surface">
       {/* mobile docs bar */}
-      <div className="sticky top-[72px] z-20 border-b border-line bg-white/90 backdrop-blur-lg lg:hidden">
+      <div className="sticky top-[72px] z-20 border-b border-line bg-bg/85 backdrop-blur-lg lg:hidden">
         <Container className="flex h-12 items-center justify-between">
           <button type="button" onClick={() => setOpen(true)} aria-expanded={open} className="flex items-center gap-2 text-sm font-semibold text-ink">
             <svg viewBox="0 0 20 20" className="size-5" aria-hidden>
@@ -116,7 +116,7 @@ export function DocsLayout() {
         aria-hidden={!open}
         onClick={() => setOpen(false)}
         className={cn(
-          'fixed inset-0 z-40 cursor-default bg-ink/25 backdrop-blur-md transition-[opacity,visibility] duration-200 lg:hidden',
+          'fixed inset-0 z-40 cursor-default bg-black/55 backdrop-blur-md transition-[opacity,visibility] duration-200 lg:hidden',
           open ? 'visible opacity-100' : 'invisible opacity-0',
         )}
       />
@@ -124,7 +124,7 @@ export function DocsLayout() {
         inert={!open}
         aria-hidden={!open}
         className={cn(
-          'fixed inset-y-0 left-0 z-50 flex w-[min(320px,86vw)] flex-col bg-mist shadow-[24px_0_48px_-24px_#0b1f1740] transition-[transform,visibility] duration-300 ease-out lg:hidden',
+          'fixed inset-y-0 left-0 z-50 flex w-[min(320px,86vw)] flex-col bg-mist shadow-[24px_0_48px_-24px_#00000040] transition-[transform,visibility] duration-300 ease-out lg:hidden',
           open ? 'visible translate-x-0' : 'invisible -translate-x-full',
         )}
       >
@@ -221,7 +221,7 @@ function Block({ block }: { block: DocBlock }) {
         <ol className="grid gap-4">
           {block.items.map((step, i) => (
             <li key={step.title} className="flex gap-4 rounded-2xl bg-mist p-5 ring-1 ring-line">
-              <span className="grid size-8 shrink-0 place-items-center rounded-full bg-brand-800 text-sm font-semibold text-white">{i + 1}</span>
+              <span className="grid size-8 shrink-0 place-items-center rounded-full bg-brand-800 text-sm font-semibold text-on-accent">{i + 1}</span>
               <div>
                 <p className="font-semibold text-ink">{step.title}</p>
                 <p className="mt-1 text-md leading-7 text-ink-soft">
@@ -238,10 +238,10 @@ function Block({ block }: { block: DocBlock }) {
           role="note"
           className={cn(
             'rounded-2xl p-5 ring-1',
-            block.tone === 'warning' ? 'bg-cream ring-[#f1dcae]' : 'bg-brand-50 ring-brand-100',
+            block.tone === 'warning' ? 'bg-warn-soft ring-warn/30' : 'bg-brand-50 ring-brand-100',
           )}
         >
-          <p className={cn('flex items-center gap-2 font-semibold', block.tone === 'warning' ? 'text-[#7a4f00]' : 'text-brand-800')}>
+          <p className={cn('flex items-center gap-2 font-semibold', block.tone === 'warning' ? 'text-warn' : 'text-brand-800')}>
             <svg viewBox="0 0 20 20" className="size-5" aria-hidden>
               {block.tone === 'warning' ? (
                 <path d="M10 3 2.5 16.5h15zM10 8v3.5M10 14h.01" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
@@ -260,7 +260,7 @@ function Block({ block }: { block: DocBlock }) {
       return (
         <div className="grid gap-2">
           {block.items.map((p) => (
-            <div key={p} className="flex items-center gap-3 rounded-xl bg-white px-4 py-3 ring-1 ring-line">
+            <div key={p} className="flex items-center gap-3 rounded-xl bg-surface px-4 py-3 ring-1 ring-line">
               <svg viewBox="0 0 20 20" className="size-4 shrink-0 text-brand-600" aria-hidden>
                 <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h7A2.5 2.5 0 0 1 16 5.5v5a2.5 2.5 0 0 1-2.5 2.5H9l-3.5 3v-3A2.5 2.5 0 0 1 4 10.5z" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
               </svg>
@@ -271,7 +271,7 @@ function Block({ block }: { block: DocBlock }) {
       )
     case 'code':
       return (
-        <div className="overflow-hidden rounded-2xl bg-brand-900">
+        <div className="overflow-hidden rounded-2xl bg-code">
           <div className="flex items-center justify-between border-b border-white/10 px-4 py-2">
             <span className="font-mono text-xs text-brand-200">{block.label}</span>
             <CopyButton text={block.code} />
@@ -312,10 +312,9 @@ function Block({ block }: { block: DocBlock }) {
       return (
         <ul className="grid gap-3 sm:grid-cols-2">
           {block.items.map((item) => {
-            const logo = OFFICIAL_LOGOS[item.name]
             return (
-              <li key={item.name} className="flex items-center justify-between gap-4 rounded-2xl bg-white px-5 py-4 ring-1 ring-line">
-                {logo ? <BrandLogo svg={logo.svg} name={item.name} className="h-6" /> : <span className="font-semibold text-ink">{item.name}</span>}
+              <li key={item.name} className="flex items-center justify-between gap-4 rounded-2xl bg-surface px-5 py-4 ring-1 ring-line">
+                <ProtocolLogo name={item.name} className="h-6" textClassName="text-lg" />
                 <span className="text-right text-sm text-muted">{item.role}</span>
               </li>
             )
@@ -332,8 +331,8 @@ export function DocPageView() {
   const toc = useMemo(() => (page ? page.blocks.filter((b): b is Extract<DocBlock, { type: 'h2' }> => b.type === 'h2') : []), [page])
 
   useSeo({
-    title: page ? `${page.title} | Plainly Docs` : 'Page not found',
-    description: page?.description ?? 'This page does not exist on Plainly.',
+    title: page ? `${page.title} | TalkenFi Docs` : 'Page not found',
+    description: page?.description ?? 'This page does not exist on TalkenFi.',
     path: `/docs/${slug}`,
     noindex: !page,
   })

@@ -6,16 +6,16 @@ import type { Message } from '@/app/agent/store'
 import { PlanCard } from '@/app/components/PlanCard'
 import { BalanceCard } from '@/app/components/wallet'
 import { useWallet } from '@/app/wallet/hooks'
-import { chainName } from '@/app/wallet/config'
+import { networkName } from '@/app/wallet/config'
 import { LogoMark } from '@/components/ui/primitives'
 import { cn } from '@/lib/utils'
 
 const STARTERS = [
   { title: 'Check my wallet', prompt: 'What’s in my wallet?' },
-  { title: 'Send ETH', prompt: 'Send 0.001 ETH to 0x' },
-  { title: 'Swap tokens', prompt: 'Swap 100 USDC for ETH' },
+  { title: 'Send SOL', prompt: 'Send 0.01 SOL to ' },
+  { title: 'Swap tokens', prompt: 'Swap 100 USDC for SOL' },
   { title: 'Earn on stablecoins', prompt: 'Where can my USDC earn the most?' },
-  { title: 'Borrow against ETH', prompt: 'Borrow $500 against my ETH collateral' },
+  { title: 'Borrow against SOL', prompt: 'Borrow $500 against my SOL collateral' },
   { title: 'Pre-qualify for a loan', prompt: 'Am I pre-qualified for an auto loan?' },
 ]
 
@@ -28,7 +28,7 @@ function ReplyCards({ reply, chatId, messageId }: { reply: AgentReply; chatId: s
         <ol className="mt-3 grid gap-1.5">
           {reply.steps.map((s, i) => (
             <li key={s} className="flex items-center gap-2 text-sm text-ink-soft">
-              <span className={cn('grid size-5 shrink-0 place-items-center rounded-full text-[10px] font-bold', i === reply.steps!.length - 1 ? 'bg-lime text-brand-900' : 'bg-brand-100 text-brand-800')}>
+              <span className={cn('grid size-5 shrink-0 place-items-center rounded-full text-[10px] font-bold', i === reply.steps!.length - 1 ? 'bg-mint text-on-accent' : 'bg-brand-100 text-brand-800')}>
                 {i === reply.steps!.length - 1 ? '✓' : i + 1}
               </span>
               {s}
@@ -50,7 +50,7 @@ function ReplyCards({ reply, chatId, messageId }: { reply: AgentReply; chatId: s
       {reply.card === 'mcp' && (
         <Link to="/app/mcp" className="mt-3 flex items-center justify-between gap-3 rounded-2xl bg-mist p-4 ring-1 ring-line hover:ring-brand-300">
           <span>
-            <span className="block text-sm font-semibold text-ink">Add Plainly MCP</span>
+            <span className="block text-sm font-semibold text-ink">Add TalkenFi MCP</span>
             <span className="block text-xs text-muted">Choose allowed actions and copy your config.</span>
           </span>
           <span aria-hidden className="text-brand-700">→</span>
@@ -64,7 +64,7 @@ function Bubble({ m, chatId, onSuggest }: { m: Message; chatId: string; onSugges
   if (m.role === 'user') {
     return (
       <div className="flex justify-end">
-        <p className="max-w-[85%] rounded-2xl rounded-br-md bg-brand-800 px-4 py-3 text-sm leading-6 whitespace-pre-wrap text-white">{m.text}</p>
+        <p className="max-w-[85%] rounded-2xl rounded-br-md bg-brand-800 px-4 py-3 text-sm leading-6 whitespace-pre-wrap text-on-accent">{m.text}</p>
       </div>
     )
   }
@@ -77,7 +77,7 @@ function Bubble({ m, chatId, onSuggest }: { m: Message; chatId: string; onSugges
         {m.reply?.suggestions && (
           <div className="mt-3 flex flex-wrap gap-2">
             {m.reply.suggestions.map((s) => (
-              <button key={s} type="button" onClick={() => onSuggest(s)} className="rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-brand-800 ring-1 ring-brand-200 hover:bg-brand-50">
+              <button key={s} type="button" onClick={() => onSuggest(s)} className="rounded-full bg-surface px-3 py-1.5 text-xs font-semibold text-brand-800 ring-1 ring-brand-200 hover:bg-brand-50">
                 {s}
               </button>
             ))}
@@ -93,7 +93,7 @@ export function AgentChat() {
   const [params, setParams] = useSearchParams()
   const navigate = useNavigate()
   const { chats, createChat, addMessage } = useAgentStore()
-  const { isConnected, address, chainId } = useWallet()
+  const { isConnected, address, networkId } = useWallet()
   const chat = chats.find((c) => c.id === chatId)
   const [draft, setDraft] = useState(() => params.get('q') ?? '')
   const [thinking, setThinking] = useState(false)
@@ -137,7 +137,7 @@ export function AgentChat() {
     setThinking(true)
     const target = id
     window.setTimeout(() => {
-      const reply = planReply(value, { connected: isConnected, address, chainName: chainId ? chainName(chainId) : undefined })
+      const reply = planReply(value, { connected: isConnected, address, chainName: networkId ? networkName(networkId) : undefined })
       addMessage(target, { role: 'agent', text: reply.text, reply })
       setThinking(false)
     }, 550)
@@ -154,7 +154,7 @@ export function AgentChat() {
     }
   }
   const suggest = (p: string) => {
-    if (/0x$/.test(p) || /to 0x$/i.test(p)) {
+    if (/\bto\s*$/i.test(p)) {
       setDraft(p)
       inputRef.current?.focus({ preventScroll: true })
     } else send(p)
@@ -173,7 +173,7 @@ export function AgentChat() {
               <p className="mt-2 text-md text-muted">Describe it in a sentence. You review and sign everything before it happens.</p>
               <div className="mt-8 grid gap-3 sm:grid-cols-2">
                 {STARTERS.map((s) => (
-                  <button key={s.title} type="button" onClick={() => suggest(s.prompt)} className="group rounded-2xl bg-white p-4 text-left ring-1 ring-line transition hover:bg-brand-50 hover:ring-brand-200">
+                  <button key={s.title} type="button" onClick={() => suggest(s.prompt)} className="group rounded-2xl bg-surface p-4 text-left ring-1 ring-line transition hover:bg-brand-50 hover:ring-brand-200">
                     <span className="block text-sm font-semibold text-ink">{s.title}</span>
                     <span className="mt-1 block text-sm text-muted group-hover:text-ink-soft">{s.prompt}</span>
                   </button>
@@ -188,7 +188,7 @@ export function AgentChat() {
               {thinking && (
                 <div className="flex items-center gap-3" aria-live="polite">
                   <LogoMark className="size-8" />
-                  <span className="flex gap-1" aria-label="Plainly is thinking">
+                  <span className="flex gap-1" aria-label="TalkenFi is thinking">
                     {[0, 1, 2].map((i) => (
                       <span key={i} className="size-2 animate-bounce rounded-full bg-brand-300" style={{ animationDelay: `${i * 120}ms` }} />
                     ))}
@@ -200,10 +200,10 @@ export function AgentChat() {
         </div>
       </div>
 
-      <form onSubmit={onSubmit} className="border-t border-line bg-white/90 px-4 py-3 backdrop-blur md:px-6">
-        <div className="mx-auto flex max-w-[760px] items-end gap-2 rounded-2xl bg-white p-2 ring-1 ring-line focus-within:ring-2 focus-within:ring-brand-300">
+      <form onSubmit={onSubmit} className="border-t border-line bg-bg/85 px-4 py-3 backdrop-blur md:px-6">
+        <div className="mx-auto flex max-w-[760px] items-end gap-2 rounded-2xl bg-surface p-2 ring-1 ring-line focus-within:ring-2 focus-within:ring-brand-300">
           <label htmlFor="agent-input" className="sr-only">
-            Message Plainly
+            Message TalkenFi
           </label>
           <textarea
             id="agent-input"
@@ -212,16 +212,16 @@ export function AgentChat() {
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
             onKeyDown={onKeyDown}
-            placeholder="Ask Plainly to swap, send, borrow, earn…"
+            placeholder="Ask TalkenFi to swap, send, borrow, earn…"
             className="max-h-40 min-h-10 flex-1 resize-none bg-transparent px-2 py-2 text-sm text-ink placeholder:text-muted focus:outline-none [field-sizing:content]"
           />
-          <button type="submit" disabled={!draft.trim() || thinking} aria-label="Send" className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand-800 text-white transition hover:bg-brand-700 disabled:bg-brand-800/30">
+          <button type="submit" disabled={!draft.trim() || thinking} aria-label="Send" className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand-800 text-on-accent transition hover:bg-brand-700 disabled:bg-brand-800/30">
             <svg viewBox="0 0 20 20" className="size-5" aria-hidden>
               <path d="M10 16V4m0 0-5 5m5-5 5 5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
         </div>
-        <p className="mx-auto mt-2 max-w-[760px] text-center text-[11px] text-muted">Plainly never moves funds without your signature.</p>
+        <p className="mx-auto mt-2 max-w-[760px] text-center text-[11px] text-muted">TalkenFi never moves funds without your signature.</p>
       </form>
     </div>
   )

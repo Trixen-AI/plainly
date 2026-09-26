@@ -72,13 +72,13 @@ export function Navbar() {
       ref={navRef}
       className={cn(
         'sticky top-0 z-30 transition-colors duration-300',
-        scrolled || open !== null || mobile ? 'bg-white/90 shadow-[0_1px_0_#0b1f1714] backdrop-blur-lg' : 'bg-transparent',
+        scrolled || open !== null || mobile ? 'bg-bg/85 shadow-[0_1px_0_#00000014] backdrop-blur-lg' : 'bg-transparent',
       )}
       onMouseLeave={() => setOpen(null)}
     >
       <Container className="flex h-[72px] items-center justify-between md:px-4">
         <div className="flex h-full items-center gap-5">
-          <SmartLink href="/" aria-label="Plainly home" className="rounded focus-visible:ring-2 focus-visible:ring-brand-300 focus-visible:outline-none">
+          <SmartLink href="/" aria-label="TalkenFi home" className="rounded focus-visible:ring-2 focus-visible:ring-brand-300 focus-visible:outline-none">
             <Logo />
           </SmartLink>
           <ul className="hidden h-full items-center lg:flex">
@@ -129,7 +129,7 @@ export function Navbar() {
         inert={open === null}
         aria-hidden={open === null}
         className={cn(
-          'absolute inset-x-0 top-full hidden border-t border-line bg-white shadow-[0_24px_48px_-24px_#0b1f1733] transition-[opacity,transform,visibility] duration-200 ease-out lg:block',
+          'absolute inset-x-0 top-full hidden border-t border-line bg-surface shadow-[0_24px_48px_-24px_#00000033] transition-[opacity,transform,visibility] duration-200 ease-out lg:block',
           open === null ? 'invisible -translate-y-2 opacity-0' : 'visible translate-y-0 opacity-100',
         )}
       >
@@ -166,7 +166,7 @@ export function Navbar() {
         aria-hidden={!mobile}
         onClick={() => setMobile(false)}
         className={cn(
-          'fixed inset-x-0 top-[72px] bottom-0 -z-10 cursor-default bg-ink/25 backdrop-blur-md transition-[opacity,visibility] duration-200 lg:hidden',
+          'fixed inset-x-0 top-[72px] bottom-0 -z-10 cursor-default bg-black/55 backdrop-blur-md transition-[opacity,visibility] duration-200 lg:hidden',
           mobile ? 'visible opacity-100' : 'invisible opacity-0',
         )}
       />
@@ -175,7 +175,7 @@ export function Navbar() {
         inert={!mobile}
         aria-hidden={!mobile}
         className={cn(
-          'absolute inset-x-3 top-full mt-2 overflow-hidden rounded-2xl bg-white shadow-[0_0_0_1px_#0b1f170f,0_24px_48px_-16px_#0b1f1740] transition-[opacity,transform,visibility] duration-250 ease-out lg:hidden',
+          'absolute inset-x-3 top-full mt-2 overflow-hidden rounded-2xl bg-surface shadow-[0_0_0_1px_#0000000f,0_24px_48px_-16px_#00000040] transition-[opacity,transform,visibility] duration-250 ease-out lg:hidden',
           mobile ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-3 opacity-0',
         )}
       >

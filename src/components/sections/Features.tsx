@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { chain, features, products, prompts, ROBINHOOD_CHAIN_URL } from '@/data/content'
+import { chain, features, products, prompts, SOLANA_DEV_URL } from '@/data/content'
 import {
   AgentStackIllustration,
   BorrowIllustration,
@@ -21,7 +21,7 @@ const featureArt: Record<string, ReactNode> = {
 
 export function Features() {
   return (
-    <section className="bg-white pt-5 pb-10">
+    <section className="bg-surface pt-5 pb-10">
       <Container className="flex flex-col gap-10 py-10 md:gap-[60px] md:py-[60px]">
         {features.map((f, i) => {
           const flip = i % 2 === 1
@@ -48,16 +48,16 @@ export function Features() {
 function PromptCard({ quote, steps, tag }: { quote: string; steps: string[]; tag: string }) {
   return (
     <div className="flex h-full flex-col justify-center gap-3 rounded-lg bg-mist p-6 sm:p-10">
-      <div className="ml-auto max-w-[85%] rounded-2xl rounded-br-md bg-brand-800 px-4 py-3 text-sm leading-5 text-white shadow-sm">{quote}</div>
-      <div className="mr-auto w-[85%] rounded-2xl rounded-bl-md bg-white p-4 shadow-[0_1px_0_#0b1f1712,0_8px_24px_-12px_#0b1f1726]">
+      <div className="ml-auto max-w-[85%] rounded-2xl rounded-br-md bg-brand-800 px-4 py-3 text-sm leading-5 text-on-accent shadow-sm">{quote}</div>
+      <div className="mr-auto w-[85%] rounded-2xl rounded-bl-md bg-surface p-4 shadow-[0_1px_0_#00000012,0_8px_24px_-12px_#00000026]">
         <div className="mb-3 flex items-center gap-2">
           <LogoMark className="size-6" />
-          <span className="text-xs font-semibold text-muted">Plainly · {tag}</span>
+          <span className="text-xs font-semibold text-muted">TalkenFi · {tag}</span>
         </div>
         <ol className="grid gap-2">
           {steps.map((s, i) => (
             <li key={s} className="flex items-center gap-2 text-sm text-ink">
-              <span className={cn('grid size-5 shrink-0 place-items-center rounded-full text-[10px] font-bold', i === steps.length - 1 ? 'bg-lime text-brand-900' : 'bg-brand-100 text-brand-800')}>
+              <span className={cn('grid size-5 shrink-0 place-items-center rounded-full text-[10px] font-bold', i === steps.length - 1 ? 'bg-mint text-on-accent' : 'bg-brand-100 text-brand-800')}>
                 {i === steps.length - 1 ? '✓' : i + 1}
               </span>
               {s}
@@ -71,7 +71,7 @@ function PromptCard({ quote, steps, tag }: { quote: string; steps: string[]; tag
 
 export function Prompts() {
   return (
-    <section className="bg-white pt-10 pb-10 md:pt-[60px]">
+    <section className="bg-surface pt-10 pb-10 md:pt-[60px]">
       <Container>
         <Reveal>
           <SectionTitle>Ask it like you’d ask a friend</SectionTitle>
@@ -123,16 +123,16 @@ function ScorePanel() {
     { k: 'HELOC', v: 'Connect home account', ok: false },
   ]
   return (
-    <div className="w-full overflow-hidden rounded-lg bg-white shadow-[0_0_0_1px_#0b1f170f,0_24px_48px_-24px_#0b1f1740]">
+    <div className="w-full overflow-hidden rounded-lg bg-surface shadow-[0_0_0_1px_#0000000f,0_24px_48px_-24px_#00000040]">
       <div className="flex items-center justify-between border-b border-line px-6 py-4">
         <span className="text-md font-semibold text-ink">My Score</span>
-        <span className="rounded-md bg-mist px-2.5 py-1 text-xs text-muted">0x4f…a21c</span>
+        <span className="rounded-md bg-mist px-2.5 py-1 text-xs text-muted">7xKX…9fQm</span>
       </div>
       <div className="grid gap-5 p-6 sm:grid-cols-[150px_1fr]">
         <div className="relative mx-auto grid size-[150px] place-items-center">
           <svg viewBox="0 0 120 120" className="absolute inset-0 -rotate-90" aria-hidden>
-            <circle cx="60" cy="60" r="50" stroke="#d9f3e2" strokeWidth="12" fill="none" />
-            <circle cx="60" cy="60" r="50" stroke="#16a060" strokeWidth="12" fill="none" strokeDasharray="314" strokeDashoffset="84" strokeLinecap="round" />
+            <circle cx="60" cy="60" r="50" stroke="#2c2352" strokeWidth="12" fill="none" />
+            <circle cx="60" cy="60" r="50" stroke="#55e9ab" strokeWidth="12" fill="none" strokeDasharray="314" strokeDashoffset="84" strokeLinecap="round" />
           </svg>
           <div className="text-center">
             <div className="text-[34px] leading-none font-semibold tracking-tight text-brand-900">Good</div>
@@ -143,7 +143,7 @@ function ScorePanel() {
           {rows.map((r) => (
             <li key={r.k} className="flex items-center justify-between rounded-lg border border-line px-3 py-2.5">
               <span className="text-sm text-ink">{r.k}</span>
-              <span className={cn('rounded-full px-2 py-0.5 text-xs font-semibold', r.ok ? 'bg-brand-100 text-brand-700' : 'bg-cream text-[#8a5a00]')}>{r.v}</span>
+              <span className={cn('rounded-full px-2 py-0.5 text-xs font-semibold', r.ok ? 'bg-brand-100 text-brand-700' : 'bg-warn-soft text-warn')}>{r.v}</span>
             </li>
           ))}
         </ul>
@@ -191,7 +191,7 @@ export function Products() {
 
 export function Chain() {
   return (
-    <section className="bg-white px-4 py-20" id="stocks">
+    <section className="bg-surface px-4 py-20" id="stocks">
       <Container className="grid items-center gap-10 lg:grid-cols-[840px_1fr]">
         <div>
           <Reveal>
@@ -212,7 +212,7 @@ export function Chain() {
             ))}
           </div>
           <Reveal>
-            <Button href={ROBINHOOD_CHAIN_URL} icon="external" className="mt-14">
+            <Button href={SOLANA_DEV_URL} icon="external" className="mt-14">
               {chain.cta}
             </Button>
           </Reveal>

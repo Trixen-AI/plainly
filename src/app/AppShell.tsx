@@ -11,14 +11,14 @@ import { cn } from '@/lib/utils'
 const PAGE_TITLES: Record<string, string> = {
   '/app/portfolio': 'Portfolio',
   '/app/score': 'My Score',
-  '/app/mcp': 'Plainly MCP',
+  '/app/mcp': 'TalkenFi MCP',
 }
 
 function MenuGroupView({ label, icon, items, onPick }: { label: string; icon: string; items: MenuItem[]; onPick: (item: MenuItem) => void }) {
   const [open, setOpen] = useState(false)
   return (
     <li>
-      <button type="button" aria-expanded={open} onClick={() => setOpen((v) => !v)} className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-ink-soft hover:bg-white hover:text-ink">
+      <button type="button" aria-expanded={open} onClick={() => setOpen((v) => !v)} className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-ink-soft hover:bg-surface hover:text-ink">
         <svg viewBox="0 0 24 24" className="size-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
           <path d={icon} />
         </svg>
@@ -30,7 +30,7 @@ function MenuGroupView({ label, icon, items, onPick }: { label: string; icon: st
       <ul className={cn('ml-[26px] grid border-l border-line pl-2', open ? 'py-1' : 'hidden')}>
         {items.map((item) => (
           <li key={item.label}>
-            <button type="button" onClick={() => onPick(item)} className="w-full rounded-md px-2.5 py-1.5 text-left text-sm text-ink-soft hover:bg-white hover:text-ink">
+            <button type="button" onClick={() => onPick(item)} className="w-full rounded-md px-2.5 py-1.5 text-left text-sm text-ink-soft hover:bg-surface hover:text-ink">
               {item.label}
             </button>
           </li>
@@ -55,7 +55,7 @@ function Sidebar({ onNavigate }: { onNavigate: () => void }) {
   return (
     <div className="flex h-full flex-col">
       <div className="flex items-center justify-between px-4 pt-4 pb-3">
-        <SmartLink href="/" aria-label="Plainly home">
+        <SmartLink href="/" aria-label="TalkenFi home">
           <Logo />
         </SmartLink>
       </div>
@@ -67,15 +67,15 @@ function Sidebar({ onNavigate }: { onNavigate: () => void }) {
             onNavigate()
             navigate('/app')
           }}
-          className="flex h-10 items-center justify-center gap-2 rounded-xl bg-brand-800 text-sm font-semibold text-white hover:bg-brand-700"
+          className="flex h-10 items-center justify-center gap-2 rounded-xl bg-brand-800 text-sm font-semibold text-on-accent hover:bg-brand-700"
         >
           <span aria-hidden className="text-lg leading-none">+</span> New Chat
         </button>
         <div className="grid grid-cols-2 gap-2">
-          <NavLink to="/app/mcp" onClick={onNavigate} className={({ isActive }) => cn('rounded-xl px-2 py-2 text-center text-xs font-semibold ring-1', isActive ? 'bg-brand-100 text-brand-800 ring-brand-200' : 'bg-white text-ink-soft ring-line hover:ring-brand-300')}>
-            + Add Plainly MCP
+          <NavLink to="/app/mcp" onClick={onNavigate} className={({ isActive }) => cn('rounded-xl px-2 py-2 text-center text-xs font-semibold ring-1', isActive ? 'bg-brand-100 text-brand-800 ring-brand-200' : 'bg-surface text-ink-soft ring-line hover:ring-brand-300')}>
+            + Add MCP
           </NavLink>
-          <SmartLink href="/app/mcp#agents" onClick={onNavigate} className="rounded-xl bg-white px-2 py-2 text-center text-xs font-semibold text-ink-soft ring-1 ring-line hover:ring-brand-300">
+          <SmartLink href="/app/mcp#agents" onClick={onNavigate} className="rounded-xl bg-surface px-2 py-2 text-center text-xs font-semibold text-ink-soft ring-1 ring-line hover:ring-brand-300">
             Launch an agent
           </SmartLink>
         </div>
@@ -92,7 +92,7 @@ function Sidebar({ onNavigate }: { onNavigate: () => void }) {
                 <NavLink
                   to={`/app/chat/${c.id}`}
                   onClick={onNavigate}
-                  className={({ isActive }) => cn('block truncate rounded-lg py-2 pr-8 pl-3 text-sm', isActive ? 'bg-white font-semibold text-ink ring-1 ring-line' : 'text-ink-soft hover:bg-white')}
+                  className={({ isActive }) => cn('block truncate rounded-lg py-2 pr-8 pl-3 text-sm', isActive ? 'bg-surface font-semibold text-ink ring-1 ring-line' : 'text-ink-soft hover:bg-surface')}
                 >
                   {c.title}
                 </NavLink>
@@ -123,7 +123,7 @@ function Sidebar({ onNavigate }: { onNavigate: () => void }) {
       </div>
 
       <div className="border-t border-line p-4">
-        <div className="rounded-xl bg-white p-3 ring-1 ring-line">
+        <div className="rounded-xl bg-surface p-3 ring-1 ring-line">
           <p className="text-xs font-semibold text-muted">Prompts this session</p>
           <p className="mt-0.5 text-lg font-semibold text-ink">{promptsSent}</p>
         </div>
@@ -144,7 +144,7 @@ export function AppShell() {
   const title = PAGE_TITLES[pathname] ?? 'Agent'
 
   return (
-    <div className="fixed inset-0 grid grid-cols-1 grid-rows-[minmax(0,1fr)] overflow-hidden bg-white lg:grid-cols-[272px_minmax(0,1fr)] xl:grid-cols-[272px_minmax(0,1fr)_340px]">
+    <div className="fixed inset-0 grid grid-cols-1 grid-rows-[minmax(0,1fr)] overflow-hidden bg-surface lg:grid-cols-[272px_minmax(0,1fr)] xl:grid-cols-[272px_minmax(0,1fr)_340px]">
       {/* sidebar: static on desktop, sheet with blurred backdrop on mobile */}
       <aside className="hidden min-h-0 overflow-hidden border-r border-line bg-mist lg:block">
         <Sidebar onNavigate={() => undefined} />
@@ -155,12 +155,12 @@ export function AppShell() {
         tabIndex={-1}
         aria-hidden={!nav}
         onClick={() => setNav(false)}
-        className={cn('fixed inset-0 z-40 bg-ink/25 backdrop-blur-md transition-[opacity,visibility] duration-200 lg:hidden', nav ? 'visible opacity-100' : 'invisible opacity-0')}
+        className={cn('fixed inset-0 z-40 bg-black/55 backdrop-blur-md transition-[opacity,visibility] duration-200 lg:hidden', nav ? 'visible opacity-100' : 'invisible opacity-0')}
       />
       <aside
         inert={!nav}
         aria-hidden={!nav}
-        className={cn('fixed inset-y-0 left-0 z-50 w-[min(300px,86vw)] bg-mist shadow-[24px_0_48px_-24px_#0b1f1740] transition-[transform,visibility] duration-300 ease-out lg:hidden', nav ? 'visible translate-x-0' : 'invisible -translate-x-full')}
+        className={cn('fixed inset-y-0 left-0 z-50 w-[min(300px,86vw)] bg-mist shadow-[24px_0_48px_-24px_#00000040] transition-[transform,visibility] duration-300 ease-out lg:hidden', nav ? 'visible translate-x-0' : 'invisible -translate-x-full')}
       >
         <Sidebar onNavigate={() => setNav(false)} />
       </aside>
@@ -178,13 +178,13 @@ export function AppShell() {
           <div className="flex items-center gap-2">
             <button type="button" onClick={() => setTxOpen(true)} className="relative h-10 rounded-full px-3 text-sm font-semibold text-ink ring-1 ring-line hover:bg-mist xl:hidden">
               Transactions
-              {waiting > 0 && <span className="ml-1.5 inline-grid size-5 place-items-center rounded-full bg-lime text-[11px] text-brand-900">{waiting}</span>}
+              {waiting > 0 && <span className="ml-1.5 inline-grid size-5 place-items-center rounded-full bg-mint text-[11px] text-on-accent">{waiting}</span>}
             </button>
             <ConnectButton />
           </div>
         </header>
         {!hasProjectId && (
-          <p className="border-b border-[#f1dcae] bg-cream px-4 py-2 text-xs text-[#7a4f00]">
+          <p className="border-b border-warn/30 bg-warn-soft px-4 py-2 text-xs text-warn">
             Add <code className="font-mono">VITE_REOWN_PROJECT_ID</code> to <code className="font-mono">.env</code> to enable WalletConnect QR and mobile wallets. Browser wallets work without it.
           </p>
         )}
@@ -202,12 +202,12 @@ export function AppShell() {
         tabIndex={-1}
         aria-hidden={!txOpen}
         onClick={() => setTxOpen(false)}
-        className={cn('fixed inset-0 z-40 bg-ink/25 backdrop-blur-md transition-[opacity,visibility] duration-200 xl:hidden', txOpen ? 'visible opacity-100' : 'invisible opacity-0')}
+        className={cn('fixed inset-0 z-40 bg-black/55 backdrop-blur-md transition-[opacity,visibility] duration-200 xl:hidden', txOpen ? 'visible opacity-100' : 'invisible opacity-0')}
       />
       <aside
         inert={!txOpen}
         aria-hidden={!txOpen}
-        className={cn('fixed inset-y-0 right-0 z-50 w-[min(380px,92vw)] bg-mist shadow-[-24px_0_48px_-24px_#0b1f1740] transition-[transform,visibility] duration-300 ease-out xl:hidden', txOpen ? 'visible translate-x-0' : 'invisible translate-x-full')}
+        className={cn('fixed inset-y-0 right-0 z-50 w-[min(380px,92vw)] bg-mist shadow-[-24px_0_48px_-24px_#00000040] transition-[transform,visibility] duration-300 ease-out xl:hidden', txOpen ? 'visible translate-x-0' : 'invisible translate-x-full')}
       >
         <TxPanel onClose={() => setTxOpen(false)} />
       </aside>

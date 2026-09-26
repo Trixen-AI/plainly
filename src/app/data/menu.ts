@@ -7,12 +7,12 @@ export const MENU: MenuGroup[] = [
     label: 'Trade',
     icon: 'M4 7h13l-3-3M20 17H7l3 3',
     items: [
-      { label: 'Swap tokens', prompt: 'Swap 100 USDC for ETH' },
-      { label: 'Limit order', prompt: 'Buy ETH if it drops to $2,800' },
-      { label: 'Bridge', prompt: 'Bridge 0.1 ETH to Robinhood Chain' },
-      { label: 'Send', prompt: 'Send 0.001 ETH to 0x' },
-      { label: 'Loop', prompt: 'Open a loop on ETH' },
-      { label: 'Short', prompt: 'Open a short on ETH' },
+      { label: 'Swap tokens', prompt: 'Swap 100 USDC for SOL' },
+      { label: 'Limit order', prompt: 'Buy SOL if it drops to $150' },
+      { label: 'Bridge', prompt: 'Bridge 100 USDC to Solana' },
+      { label: 'Send', prompt: 'Send 0.01 SOL to ' },
+      { label: 'Loop', prompt: 'Open a loop on SOL' },
+      { label: 'Short', prompt: 'Open a short on SOL' },
     ],
   },
   {
@@ -20,7 +20,7 @@ export const MENU: MenuGroup[] = [
     icon: 'M4 19V11M10 19V5M16 19v-6M22 19H2',
     items: [
       { label: 'What’s moving', prompt: 'What’s moving today, and is any of it in my portfolio?' },
-      { label: 'Research a coin', prompt: 'Research the market for ETH' },
+      { label: 'Research a coin', prompt: 'Research the market for SOL' },
     ],
   },
   {
@@ -38,7 +38,7 @@ export const MENU: MenuGroup[] = [
     icon: 'M12 3v18M7 8h7.5a3.5 3.5 0 0 1 0 7H6',
     items: [
       { label: 'My loans', prompt: 'Show my loans' },
-      { label: 'Use collateral', prompt: 'Borrow $500 against my ETH collateral' },
+      { label: 'Use collateral', prompt: 'Borrow $500 against my SOL collateral' },
       { label: 'Rollover', prompt: 'Roll over my loan' },
       { label: 'Repay', prompt: 'Repay half of my loan' },
     ],
@@ -73,25 +73,19 @@ export const MENU: MenuGroup[] = [
     label: 'Lending',
     icon: 'M3 10h18M5 10v8M9 10v8M15 10v8M19 10v8M2 20h20M12 3l9 5H3z',
     items: [
-      { label: 'Aave', prompt: 'Deposit 100 USDC on Aave' },
-      { label: 'Morpho', prompt: 'Deposit 100 USDC on Morpho' },
-      { label: 'Silo', prompt: 'Deposit 100 USDC on Silo' },
-      { label: 'Pendle', prompt: 'Find a fixed yield on Pendle' },
+      { label: 'Kamino', prompt: 'Deposit 100 USDC on Kamino' },
+      { label: 'Drift', prompt: 'Borrow 100 USDC on Drift' },
+      { label: 'Jito', prompt: 'Stake 1 SOL with Jito' },
     ],
   },
   {
     label: 'DEX LP',
     icon: 'M8 12a4 4 0 1 0 0-.01M16 12a4 4 0 1 0 0-.01',
     items: [
-      { label: 'Aerodrome', prompt: 'Add liquidity on Aerodrome' },
-      { label: 'Uniswap', prompt: 'Add liquidity on Uniswap' },
-      { label: 'PancakeSwap', prompt: 'Add liquidity on PancakeSwap' },
+      { label: 'Raydium', prompt: 'Add liquidity on Raydium' },
+      { label: 'Orca', prompt: 'Add liquidity on Orca' },
+      { label: 'Meteora', prompt: 'Add liquidity on Meteora' },
     ],
-  },
-  {
-    label: 'Predictions',
-    icon: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18ZM12 7v5l3 2',
-    items: [{ label: 'Polymarket', prompt: 'What are the odds on Polymarket this week?' }],
   },
   {
     label: 'Account',

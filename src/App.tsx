@@ -13,10 +13,10 @@ const AppRoot = lazy(loadApp)
 
 function AppLoading() {
   return (
-    <div className="grid h-dvh place-items-center bg-white" role="status" aria-live="polite">
+    <div className="grid h-dvh place-items-center bg-surface" role="status" aria-live="polite">
       <div className="flex items-center gap-3 text-sm font-semibold text-muted">
         <span className="size-4 animate-spin rounded-full border-2 border-brand-200 border-t-brand-700" aria-hidden />
-        Loading Plainly
+        Loading TalkenFi
       </div>
     </div>
   )

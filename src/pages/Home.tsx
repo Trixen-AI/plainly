@@ -5,9 +5,9 @@ import { Capabilities, Cta, Security } from '@/components/sections/Lower'
 
 export function Home() {
   useSeo({
-    title: 'Plainly: AI agent for onchain money on Robinhood Chain',
+    title: 'TalkenFi: AI agent for onchain money on Solana',
     description:
-      'Plainly turns plain language into onchain transactions. Swap, bridge, borrow, lend and earn, or pre-qualify for a no-collateral loan, on Robinhood Chain.',
+      'TalkenFi turns plain language into onchain transactions. Swap, bridge, borrow, lend and earn, or pre-qualify for a no-collateral loan, on Solana.',
     path: '/',
   })
 

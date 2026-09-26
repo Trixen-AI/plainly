@@ -1,34 +1,30 @@
 import { createAppKit } from '@reown/appkit/react'
-import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
-import type { AppKitNetwork } from '@reown/appkit/networks'
-import { robinhood, robinhoodTestnet } from 'viem/chains'
+import { SolanaAdapter } from '@reown/appkit-adapter-solana/react'
+import { solana, solanaDevnet, type AppKitNetwork } from '@reown/appkit/networks'
+import { SITE_NAME } from '@/data/content'
 
 /**
- * Robinhood Chain networks come from viem's official chain definitions:
- * mainnet 4663 (rpc.mainnet.chain.robinhood.com), testnet 46630 (rpc.testnet.chain.robinhood.com),
- * matching docs.robinhood.com/chain.
+ * Solana networks from Reown AppKit. Mainnet is the default; devnet is kept for testing with free devnet SOL.
+ * Phantom, Solflare, Backpack and other Wallet Standard wallets are picked up automatically.
  */
-export const DEFAULT_CHAIN = robinhood
-export const NETWORKS: [AppKitNetwork, ...AppKitNetwork[]] = [robinhood, robinhoodTestnet]
-export const SUPPORTED_CHAIN_IDS: number[] = [robinhood.id, robinhoodTestnet.id]
+export const DEFAULT_NETWORK = solana
+export const NETWORKS: [AppKitNetwork, ...AppKitNetwork[]] = [solana, solanaDevnet]
+export const SUPPORTED_NETWORK_IDS: string[] = [String(solana.id), String(solanaDevnet.id)]
 
 export const projectId = import.meta.env.VITE_REOWN_PROJECT_ID ?? ''
 export const hasProjectId = projectId.length > 0
 
-export const wagmiAdapter = new WagmiAdapter({
-  // AppKit still boots without an ID (injected wallets work); WalletConnect QR needs a real one.
-  projectId: projectId || 'missing-project-id',
-  networks: NETWORKS,
-})
+export const solanaAdapter = new SolanaAdapter()
 
 export const appKit = createAppKit({
-  adapters: [wagmiAdapter],
+  adapters: [solanaAdapter],
   networks: NETWORKS,
-  defaultNetwork: DEFAULT_CHAIN,
+  defaultNetwork: DEFAULT_NETWORK,
+  // AppKit still boots without an ID (browser wallets work); WalletConnect QR and mobile wallets need a real one.
   projectId: projectId || 'missing-project-id',
   metadata: {
-    name: 'Plainly',
-    description: 'An AI agent that turns plain language into onchain transactions on Robinhood Chain.',
+    name: SITE_NAME,
+    description: 'An AI agent that turns plain language into onchain transactions on Solana.',
     url: window.location.origin,
     icons: [`${window.location.origin}/brand/logo-500.png`],
   },
@@ -39,28 +35,37 @@ export const appKit = createAppKit({
     swaps: false,
     onramp: false,
   },
-  themeMode: 'light',
+  // Solana wallets first in the modal (WalletConnect registry IDs): Phantom, Solflare, Backpack.
+  featuredWalletIds: [
+    'a797aa35c0fadbfc1a53e7f675162ed5226968b44a19ee3d24385c64d1d3c393',
+    '1ca0bdd4747578705b1939af023d120677c64fe6ca76add81fda36e350605e79',
+    '2bd8c14e035c2d48f184aaa168559e86b0e3433228d3c4075900a221785019b0',
+  ],
+  themeMode: 'dark',
   themeVariables: {
-    '--w3m-accent': '#084b32',
-    '--w3m-color-mix': '#063424',
-    '--w3m-color-mix-strength': 8,
+    '--w3m-accent': '#9945ff',
+    '--w3m-color-mix': '#0b0a10',
+    '--w3m-color-mix-strength': 20,
     '--w3m-font-family': "'Inter Variable', Inter, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif",
     '--w3m-border-radius-master': '3px',
   },
 })
 
-export function explorerTxUrl(chainId: number, hash: string) {
-  const chain = chainId === robinhoodTestnet.id ? robinhoodTestnet : robinhood
-  return `${chain.blockExplorers.default.url}/tx/${hash}`
+const isDevnet = (networkId?: string | number) => String(networkId) === String(solanaDevnet.id)
+const clusterQuery = (networkId?: string | number) => (isDevnet(networkId) ? '?cluster=devnet' : '')
+
+export function explorerTxUrl(networkId: string | number | undefined, signature: string) {
+  return `https://explorer.solana.com/tx/${signature}${clusterQuery(networkId)}`
 }
 
-export function explorerAddressUrl(chainId: number, address: string) {
-  const chain = chainId === robinhoodTestnet.id ? robinhoodTestnet : robinhood
-  return `${chain.blockExplorers.default.url}/address/${address}`
+export function explorerAddressUrl(networkId: string | number | undefined, address: string) {
+  return `https://explorer.solana.com/address/${address}${clusterQuery(networkId)}`
 }
 
-export function chainName(chainId?: number) {
-  if (chainId === robinhood.id) return robinhood.name
-  if (chainId === robinhoodTestnet.id) return robinhoodTestnet.name
+export function networkName(networkId?: string | number) {
+  if (String(networkId) === String(solana.id)) return 'Solana'
+  if (isDevnet(networkId)) return 'Solana Devnet'
   return 'Unsupported network'
 }
+
+export { isDevnet }

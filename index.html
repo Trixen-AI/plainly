@@ -1,19 +1,28 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-    <title>Plainly: AI agent for onchain money on Robinhood Chain</title>
+    <title>TalkenFi: AI agent for onchain money on Solana</title>
     <meta
       name="description"
-      content="Plainly turns plain language into onchain transactions. Swap, bridge, borrow, lend and earn, or pre-qualify for a no-collateral loan, on Robinhood Chain."
+      content="TalkenFi turns plain language into onchain transactions. Swap, bridge, borrow, lend and earn, or pre-qualify for a no-collateral loan, on Solana."
     />
-    <meta name="keywords" content="Plainly, AI agent, onchain, Robinhood Chain, DeFi, swap, bridge, borrow, lend, yield, tokenized stocks, no-collateral loan" />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
-    <meta name="theme-color" content="#063424" />
-    <meta name="color-scheme" content="light" />
-    <link rel="canonical" href="https://plainly.chat/" />
+    <meta name="keywords" content="TalkenFi, AI agent, onchain, Solana, DeFi, Phantom, swap, bridge, borrow, lend, yield, tokenized stocks, no-collateral loan, MCP" />
+    <meta name="author" content="TalkenFi" />
+    <meta name="application-name" content="TalkenFi" />
+    <meta name="apple-mobile-web-app-title" content="TalkenFi" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="theme-color" content="#0b0a10" />
+    <meta name="color-scheme" content="dark" />
+
+    <link rel="canonical" href="https://talkenhub.xyz/" />
+    <link rel="alternate" hreflang="en" href="https://talkenhub.xyz/" />
+    <link rel="alternate" hreflang="x-default" href="https://talkenhub.xyz/" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="500x500" href="/brand/logo-500.png" />
@@ -22,30 +31,32 @@
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Plainly" />
+    <meta property="og:site_name" content="TalkenFi" />
     <meta property="og:locale" content="en_US" />
-    <meta property="og:url" content="https://plainly.chat/" />
-    <meta property="og:title" content="Plainly: AI agent for onchain money on Robinhood Chain" />
+    <meta property="og:url" content="https://talkenhub.xyz/" />
+    <meta property="og:title" content="TalkenFi: AI agent for onchain money on Solana" />
     <meta
       property="og:description"
-      content="Plainly turns plain language into onchain transactions. Swap, bridge, borrow, lend and earn, or pre-qualify for a no-collateral loan, on Robinhood Chain."
+      content="TalkenFi turns plain language into onchain transactions. Swap, bridge, borrow, lend and earn, or pre-qualify for a no-collateral loan, on Solana."
     />
-    <meta property="og:image" content="https://plainly.chat/og-image.png" />
+    <meta property="og:image" content="https://talkenhub.xyz/og-image.png" />
+    <meta property="og:image:secure_url" content="https://talkenhub.xyz/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Plainly: Your money, in plain words. AI agent for onchain money on Robinhood Chain." />
+    <meta property="og:image:alt" content="TalkenFi: Your money, in plain words. AI agent for onchain money on Solana." />
 
     <!-- X / Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@PlainlyChat" />
-    <meta name="twitter:creator" content="@PlainlyChat" />
-    <meta name="twitter:title" content="Plainly: AI agent for onchain money on Robinhood Chain" />
+    <meta name="twitter:site" content="@TalkenFi_xyz" />
+    <meta name="twitter:creator" content="@TalkenFi_xyz" />
+    <meta name="twitter:title" content="TalkenFi: AI agent for onchain money on Solana" />
     <meta
       name="twitter:description"
-      content="Plainly turns plain language into onchain transactions. Swap, bridge, borrow, lend and earn, or pre-qualify for a no-collateral loan, on Robinhood Chain."
+      content="TalkenFi turns plain language into onchain transactions. Swap, bridge, borrow, lend and earn, or pre-qualify for a no-collateral loan, on Solana."
     />
-    <meta name="twitter:image" content="https://plainly.chat/og-image.png" />
-    <meta name="twitter:image:alt" content="Plainly: Your money, in plain words. AI agent for onchain money on Robinhood Chain." />
+    <meta name="twitter:image" content="https://talkenhub.xyz/og-image.png" />
+    <meta name="twitter:image:alt" content="TalkenFi: Your money, in plain words. AI agent for onchain money on Solana." />
 
     <!-- Structured data -->
     <script type="application/ld+json">
@@ -54,34 +65,79 @@
         "@graph": [
           {
             "@type": "Organization",
-            "@id": "https://plainly.chat/#organization",
-            "name": "Plainly",
-            "url": "https://plainly.chat/",
-            "logo": "https://plainly.chat/brand/logo-500.png",
-            "sameAs": ["https://x.com/PlainlyChat"]
+            "@id": "https://talkenhub.xyz/#organization",
+            "name": "TalkenFi",
+            "url": "https://talkenhub.xyz/",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://talkenhub.xyz/brand/logo-500.png",
+              "width": 500,
+              "height": 500
+            },
+            "sameAs": ["https://x.com/TalkenFi_xyz"]
           },
           {
             "@type": "WebSite",
-            "@id": "https://plainly.chat/#website",
-            "name": "Plainly",
-            "url": "https://plainly.chat/",
-            "publisher": { "@id": "https://plainly.chat/#organization" }
+            "@id": "https://talkenhub.xyz/#website",
+            "name": "TalkenFi",
+            "url": "https://talkenhub.xyz/",
+            "description": "TalkenFi turns plain language into onchain transactions on Solana.",
+            "inLanguage": "en",
+            "publisher": { "@id": "https://talkenhub.xyz/#organization" }
           },
           {
-            "@type": "SoftwareApplication",
-            "name": "Plainly",
+            "@type": "WebPage",
+            "@id": "https://talkenhub.xyz/#webpage",
+            "url": "https://talkenhub.xyz/",
+            "name": "TalkenFi: AI agent for onchain money on Solana",
+            "isPartOf": { "@id": "https://talkenhub.xyz/#website" },
+            "about": { "@id": "https://talkenhub.xyz/#app" },
+            "primaryImageOfPage": { "@type": "ImageObject", "url": "https://talkenhub.xyz/og-image.png", "width": 1200, "height": 630 },
+            "inLanguage": "en"
+          },
+          {
+            "@type": "WebApplication",
+            "@id": "https://talkenhub.xyz/#app",
+            "name": "TalkenFi",
+            "url": "https://talkenhub.xyz/app",
             "applicationCategory": "FinanceApplication",
             "operatingSystem": "Web",
-            "url": "https://plainly.chat/app",
-            "description": "An AI agent that turns plain language into onchain transactions on Robinhood Chain.",
-            "publisher": { "@id": "https://plainly.chat/#organization" }
+            "browserRequirements": "Requires JavaScript and a Solana wallet such as Phantom.",
+            "description": "An AI agent that turns plain language into onchain transactions on Solana. Every transaction is shown to you before you sign it.",
+            "featureList": [
+              "Swap tokens by typing a sentence",
+              "Send SOL",
+              "Borrow and lend",
+              "Find yield",
+              "No-collateral loan pre-qualification",
+              "MCP server for AI agents"
+            ],
+            "publisher": { "@id": "https://talkenhub.xyz/#organization" }
           }
         ]
       }
     </script>
   </head>
   <body>
-    <noscript>Plainly needs JavaScript to run. Plainly is an AI agent that turns plain language into onchain transactions on Robinhood Chain.</noscript>
+    <noscript>
+      <h1>TalkenFi: AI agent for onchain money on Solana</h1>
+      <p>
+        TalkenFi turns plain language into onchain transactions. Swap, bridge, borrow, lend and earn, or pre-qualify for a
+        no-collateral loan, on Solana. JavaScript is needed to run the app.
+      </p>
+      <ul>
+        <li><a href="/docs/introduction">Introduction</a></li>
+        <li><a href="/docs/quickstart">Quickstart</a></li>
+        <li><a href="/docs/trading">Trading</a></li>
+        <li><a href="/docs/borrowing">Borrowing</a></li>
+        <li><a href="/docs/earning">Earning</a></li>
+        <li><a href="/docs/talkenfi-score">TalkenFi Score</a></li>
+        <li><a href="/docs/mcp">TalkenFi MCP</a></li>
+        <li><a href="/docs/security">Security</a></li>
+        <li><a href="/docs/protocols">Supported protocols</a></li>
+        <li><a href="/docs/faq">FAQ</a></li>
+      </ul>
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

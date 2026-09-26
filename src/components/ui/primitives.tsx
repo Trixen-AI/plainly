@@ -1,8 +1,8 @@
-import type { ComponentProps, ReactNode } from 'react'
+import { useId, type ComponentProps, type ReactNode } from 'react'
 import { motion } from 'motion/react'
 import { Link } from 'react-router'
 import type { RichText } from '@/data/content'
-import { WORDMARK } from '@/components/brand/outlines'
+import { WORDMARK, WORDMARK_ACCENT } from '@/components/brand/outlines'
 import { loadApp } from '@/lib/loadApp'
 import { cn, EASE } from '@/lib/utils'
 
@@ -107,8 +107,8 @@ export function Button({
       className={cn(
         'group relative inline-flex h-12 shrink-0 items-center justify-center gap-2 overflow-hidden rounded-full px-5 text-md font-semibold whitespace-nowrap transition duration-200 focus-visible:ring-4 focus-visible:ring-brand-300 focus-visible:outline-none',
         variant === 'solid'
-          ? 'btn-sheen bg-brand-800 text-white shadow-skeumorphic hover:bg-brand-700'
-          : 'bg-white/70 text-brand-900 ring-1 ring-brand-900/15 hover:bg-white',
+          ? 'btn-sheen bg-brand-800 text-on-accent shadow-skeumorphic hover:bg-brand-700'
+          : 'bg-surface/70 text-brand-900 ring-1 ring-brand-900/15 hover:bg-surface',
         className,
       )}
     >
@@ -153,15 +153,30 @@ export function Reveal({ children, className, delay = 0 }: { children: ReactNode
   )
 }
 
-/** The Plainly mark on its own (no wordmark), for avatars and small badges. */
-export function LogoMark({ className, inverted = false }: { className?: string; inverted?: boolean }) {
-  const bg = inverted ? '#d4f36b' : '#063424'
-  const fg = inverted ? '#063424' : '#d4f36b'
+/** TalkenFi mark: a speech bubble holding three rising bars (voice waveform + growth), violet to mint. */
+function MarkShapes({ gradientId }: { gradientId: string }) {
   return (
-    <svg viewBox="0 0 32 32" role="img" aria-label="Plainly" className={cn('block size-8 shrink-0', className)}>
-      <rect width="32" height="32" rx="9" fill={bg} />
-      <path d="M8 11a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v6a4 4 0 0 1-4 4h-4.5L11 25v-4.3A4 4 0 0 1 8 17v-6Z" fill={fg} />
-      <path d="M12.5 14h7M16 10.5v7" stroke={bg} strokeWidth="2" strokeLinecap="round" />
+    <>
+      <defs>
+        <linearGradient id={gradientId} x1="2" y1="3" x2="30" y2="26" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor="#9945ff" />
+          <stop offset="1" stopColor="#55e9ab" />
+        </linearGradient>
+      </defs>
+      <path d="M7 3h18a5 5 0 0 1 5 5v13a5 5 0 0 1-5 5H14.5L8 31v-5H7a5 5 0 0 1-5-5V8a5 5 0 0 1 5-5Z" fill={`url(#${gradientId})`} />
+      <rect x="9.4" y="15.6" width="3.4" height="5.4" rx="1.7" fill="#0b0a10" />
+      <rect x="14.3" y="12.4" width="3.4" height="8.6" rx="1.7" fill="#0b0a10" />
+      <rect x="19.2" y="9" width="3.4" height="12" rx="1.7" fill="#0b0a10" />
+    </>
+  )
+}
+
+/** The TalkenFi mark on its own (no wordmark), for avatars and small badges. */
+export function LogoMark({ className }: { className?: string }) {
+  const id = useId()
+  return (
+    <svg viewBox="0 0 32 32" role="img" aria-label="TalkenFi" className={cn('block size-8 shrink-0', className)}>
+      <MarkShapes gradientId={`tf-mark-${id}`} />
     </svg>
   )
 }
@@ -181,26 +196,24 @@ export function BrandLogo({ svg, name, className }: { svg: string; name: string;
 const LOGO_GAP = 8
 const LOGO_WIDTH = Math.ceil(32 + LOGO_GAP + WORDMARK.x2)
 
-export function Logo({ className, inverted = false }: { className?: string; inverted?: boolean }) {
-  const bg = inverted ? '#d4f36b' : '#063424'
-  const fg = inverted ? '#063424' : '#d4f36b'
+/** Full logo: mark + outlined wordmark. `light` is the version for light backgrounds. */
+export function Logo({ className, light = false }: { className?: string; light?: boolean }) {
+  const id = useId()
+  const wordY = 16 - (WORDMARK.y1 + WORDMARK.y2) / 2
   return (
     <svg
       viewBox={`0 0 ${LOGO_WIDTH} 32`}
       width={LOGO_WIDTH}
       height={32}
       role="img"
-      aria-label="Plainly"
+      aria-label="TalkenFi"
       className={cn('block h-8 w-auto', className)}
     >
-      <rect width="32" height="32" rx="9" fill={bg} />
-      <path d="M8 11a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v6a4 4 0 0 1-4 4h-4.5L11 25v-4.3A4 4 0 0 1 8 17v-6Z" fill={fg} />
-      <path d="M12.5 14h7M16 10.5v7" stroke={bg} strokeWidth="2" strokeLinecap="round" />
-      <path
-        transform={`translate(${32 + LOGO_GAP} ${16 - (WORDMARK.y1 + WORDMARK.y2) / 2})`}
-        d={WORDMARK.d}
-        fill={inverted ? '#ffffff' : '#0b1f17'}
-      />
+      <MarkShapes gradientId={`tf-logo-${id}`} />
+      <g transform={`translate(${32 + LOGO_GAP} ${wordY})`}>
+        <path d={WORDMARK.d} fill={light ? '#0b0a10' : '#f4f2fa'} />
+        <path d={WORDMARK_ACCENT.d} fill={light ? '#9945ff' : '#55e9ab'} />
+      </g>
     </svg>
   )
 }

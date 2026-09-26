@@ -16,7 +16,7 @@ const ACTIONS = [
 function Toggle({ on, onChange, label }: { on: boolean; onChange: () => void; label: string }) {
   return (
     <button type="button" role="switch" aria-checked={on} aria-label={label} onClick={onChange} className={cn('relative h-6 w-11 shrink-0 rounded-full transition', on ? 'bg-brand-600' : 'bg-line')}>
-      <span className={cn('absolute top-0.5 size-5 rounded-full bg-white shadow transition-all', on ? 'left-[22px]' : 'left-0.5')} />
+      <span className={cn('absolute top-0.5 size-5 rounded-full bg-surface shadow transition-all', on ? 'left-[22px]' : 'left-0.5')} />
     </button>
   )
 }
@@ -33,7 +33,7 @@ export function Mcp() {
   const config = useMemo(
     () =>
       JSON.stringify(
-        { mcpServers: { plainly: { url: url || '<your Plainly MCP server URL>', allowedActions: allowed } } },
+        { mcpServers: { talkenfi: { url: url || '<your TalkenFi MCP server URL>', allowedActions: allowed } } },
         null,
         2,
       ),
@@ -69,12 +69,12 @@ export function Mcp() {
     <div className="h-full overflow-y-auto">
       <div className="mx-auto grid max-w-[960px] gap-8 px-4 py-8 md:px-6">
         <header>
-          <h1 className="text-display-xs font-semibold text-ink md:text-display-sm">Plainly MCP</h1>
-          <p className="mt-1 text-md text-muted">Let your own AI agent prepare Plainly actions. Every transaction still needs your signature.</p>
+          <h1 className="text-display-xs font-semibold text-ink md:text-display-sm">TalkenFi MCP</h1>
+          <p className="mt-1 text-md text-muted">Let your own AI agent prepare TalkenFi actions. Every transaction still needs your signature.</p>
         </header>
 
         <div className="grid gap-6 lg:grid-cols-2">
-          <section className="grid content-start gap-4 rounded-2xl bg-white p-5 ring-1 ring-line">
+          <section className="grid content-start gap-4 rounded-2xl bg-surface p-5 ring-1 ring-line">
             <p className="text-md font-semibold text-ink">1. Allowed actions</p>
             <ul className="grid gap-2">
               {ACTIONS.map((a) => {
@@ -92,13 +92,13 @@ export function Mcp() {
             </ul>
           </section>
 
-          <section className="grid content-start gap-4 rounded-2xl bg-white p-5 ring-1 ring-line">
+          <section className="grid content-start gap-4 rounded-2xl bg-surface p-5 ring-1 ring-line">
             <p className="text-md font-semibold text-ink">2. Connect your client</p>
             <label className="grid gap-1.5">
-              <span className="text-xs font-semibold text-muted">Server URL from your Plainly account</span>
+              <span className="text-xs font-semibold text-muted">Server URL from your TalkenFi account</span>
               <input value={url} onChange={(e) => setUrl(e.target.value.trim())} placeholder="https://…" spellCheck={false} className="h-10 rounded-xl border border-line px-3 font-mono text-xs text-ink focus:border-brand-300 focus:ring-2 focus:ring-brand-100 focus:outline-none" />
             </label>
-            <div className="overflow-hidden rounded-2xl bg-brand-900">
+            <div className="overflow-hidden rounded-2xl bg-code">
               <div className="flex items-center justify-between border-b border-white/10 px-4 py-2">
                 <span className="font-mono text-xs text-brand-200">mcp config</span>
                 <button type="button" onClick={copy} className="rounded-md px-2 py-1 text-xs font-semibold text-brand-200 ring-1 ring-white/15 hover:bg-white/10">
@@ -115,7 +115,7 @@ export function Mcp() {
           </section>
         </div>
 
-        <section id="agents" className="grid gap-4 rounded-2xl bg-white p-5 ring-1 ring-line md:p-6">
+        <section id="agents" className="grid gap-4 rounded-2xl bg-surface p-5 ring-1 ring-line md:p-6">
           <div>
             <p className="text-md font-semibold text-ink">Launch an agent</p>
             <p className="text-sm text-muted">Give it a job in plain words. It uses the actions allowed above.</p>
@@ -132,7 +132,7 @@ export function Mcp() {
           </div>
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="text-xs text-muted">{agents.length ? `${agents.length} agent request${agents.length > 1 ? 's' : ''} in Sign Transactions` : 'You approve the agent with a wallet signature.'}</p>
-            <button type="button" disabled={!name.trim() || !instructions.trim() || allowed.length === 0} onClick={launch} className="h-10 rounded-full bg-brand-800 px-5 text-sm font-semibold text-white hover:bg-brand-700 disabled:bg-brand-800/40">
+            <button type="button" disabled={!name.trim() || !instructions.trim() || allowed.length === 0} onClick={launch} className="h-10 rounded-full bg-brand-800 px-5 text-sm font-semibold text-on-accent hover:bg-brand-700 disabled:bg-brand-800/40">
               Launch agent
             </button>
           </div>

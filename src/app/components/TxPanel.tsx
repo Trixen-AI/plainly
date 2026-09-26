@@ -1,87 +1,94 @@
 import { useEffect } from 'react'
-import { useAppKit } from '@reown/appkit/react'
-import { parseEther } from 'viem'
-import { useSendTransaction, useSignTypedData, useSwitchChain, useWaitForTransactionReceipt } from 'wagmi'
-import { field, planTitle, transferError } from '@/app/agent/engine'
+import { useQuery } from '@tanstack/react-query'
+import { useAppKit, useAppKitNetwork, useAppKitProvider } from '@reown/appkit/react'
+import { useAppKitConnection, type Provider } from '@reown/appkit-adapter-solana/react'
+import { PublicKey, SystemProgram, Transaction } from '@solana/web3.js'
+import { field, planTitle, solToLamports, transferError } from '@/app/agent/engine'
 import { useAgentStore } from '@/app/agent/context'
 import type { PendingTx, TxStatus } from '@/app/agent/store'
 import { useWallet } from '@/app/wallet/hooks'
-import { chainName, DEFAULT_CHAIN, explorerTxUrl } from '@/app/wallet/config'
+import { DEFAULT_NETWORK, explorerTxUrl, networkName } from '@/app/wallet/config'
 import { cn } from '@/lib/utils'
 
 const STATUS: Record<TxStatus, { label: string; tone: string }> = {
   pending: { label: 'Waiting for signature', tone: 'bg-mist text-ink-soft ring-line' },
-  signing: { label: 'Check your wallet', tone: 'bg-brand-50 text-brand-800 ring-brand-200' },
-  submitted: { label: 'Submitted', tone: 'bg-brand-50 text-brand-800 ring-brand-200' },
-  confirmed: { label: 'Confirmed', tone: 'bg-lime text-brand-900 ring-lime' },
-  approved: { label: 'Approved', tone: 'bg-lime text-brand-900 ring-lime' },
-  failed: { label: 'Failed', tone: 'bg-[#fdecea] text-[#9b2c1f] ring-[#f5c6bf]' },
+  signing: { label: 'Check your wallet', tone: 'bg-brand-50 text-brand-700 ring-brand-200' },
+  submitted: { label: 'Submitted', tone: 'bg-brand-50 text-brand-700 ring-brand-200' },
+  confirmed: { label: 'Confirmed', tone: 'bg-mint text-on-accent ring-mint' },
+  approved: { label: 'Approved', tone: 'bg-mint text-on-accent ring-mint' },
+  failed: { label: 'Failed', tone: 'bg-danger-soft text-danger ring-danger/30' },
   rejected: { label: 'Rejected', tone: 'bg-mist text-muted ring-line' },
 }
 
 function isUserRejection(err: unknown) {
-  const text = `${(err as { name?: string })?.name ?? ''} ${(err as { shortMessage?: string })?.shortMessage ?? ''} ${(err as Error)?.message ?? ''}`
-  return /reject|denied|cancel/i.test(text)
+  const text = `${(err as { name?: string })?.name ?? ''} ${(err as Error)?.message ?? ''}`
+  return /reject|denied|cancel|declined/i.test(text)
 }
 
 function errorText(err: unknown) {
-  return (err as { shortMessage?: string })?.shortMessage ?? (err as Error)?.message?.split('\n')[0] ?? 'Something went wrong.'
+  return (err as Error)?.message?.split('\n')[0] || 'Something went wrong.'
+}
+
+const toBase64 = (bytes: Uint8Array) => btoa(String.fromCharCode(...bytes))
+
+/** Plain-text approval shown in the wallet: readable by a person, no funds move. */
+function approvalMessage(tx: PendingTx) {
+  const lines = tx.plan.fields.map((x) => `${x.label}: ${x.value}${x.suffix ? ` ${x.suffix}` : ''}`)
+  return ['TalkenFi approval', '', `Action: ${planTitle(tx.plan)}`, ...lines, '', `Issued: ${new Date(tx.at).toISOString()}`, 'No funds move when you sign this message.'].join('\n')
 }
 
 function TxItem({ tx }: { tx: PendingTx }) {
   const { updateTx, removeTx } = useAgentStore()
   const { open } = useAppKit()
-  const { isConnected, chainId, onSupportedChain } = useWallet()
-  const { sendTransactionAsync } = useSendTransaction()
-  const { signTypedDataAsync } = useSignTypedData()
-  const { switchChainAsync } = useSwitchChain()
-  const receipt = useWaitForTransactionReceipt({
-    hash: tx.status === 'submitted' ? (tx.hash as `0x${string}`) : undefined,
-    chainId: tx.chainId,
-    query: { enabled: tx.status === 'submitted' && !!tx.hash },
+  const { switchNetwork } = useAppKitNetwork()
+  const { walletProvider } = useAppKitProvider<Provider>('solana')
+  const { connection } = useAppKitConnection()
+  const { isConnected, address, networkId, onSupportedNetwork } = useWallet()
+
+  // Poll the signature until the cluster reports it confirmed (or failed).
+  const sigStatus = useQuery({
+    queryKey: ['sig-status', tx.hash],
+    enabled: tx.status === 'submitted' && Boolean(tx.hash && connection),
+    refetchInterval: 2000,
+    queryFn: async () => (await connection!.getSignatureStatuses([tx.hash!])).value[0],
   })
 
   useEffect(() => {
-    if (tx.status !== 'submitted') return
-    if (receipt.data) updateTx(tx.id, { status: receipt.data.status === 'success' ? 'confirmed' : 'failed', error: receipt.data.status === 'success' ? undefined : 'The transaction reverted onchain.' })
-    else if (receipt.isError) updateTx(tx.id, { status: 'failed', error: errorText(receipt.error) })
-  }, [receipt.data, receipt.isError, receipt.error, tx.id, tx.status, updateTx])
+    if (tx.status !== 'submitted' || !sigStatus.data) return
+    if (sigStatus.data.err) updateTx(tx.id, { status: 'failed', error: 'The transaction failed onchain.' })
+    else if (sigStatus.data.confirmationStatus === 'confirmed' || sigStatus.data.confirmationStatus === 'finalized')
+      updateTx(tx.id, { status: 'confirmed', error: undefined })
+  }, [sigStatus.data, tx.id, tx.status, updateTx])
 
   const sign = async () => {
-    if (!isConnected) {
+    if (!isConnected || !address) {
       open()
       return
     }
+    if (!onSupportedNetwork) {
+      await switchNetwork(DEFAULT_NETWORK)
+      updateTx(tx.id, { error: 'Switched to Solana. Press Sign again.' })
+      return
+    }
+    if (!walletProvider || !connection) {
+      updateTx(tx.id, { status: 'failed', error: 'Wallet is not ready yet. Reconnect and try again.' })
+      return
+    }
     try {
-      let cid = chainId
-      if (!onSupportedChain || cid === undefined) {
-        await switchChainAsync({ chainId: DEFAULT_CHAIN.id })
-        cid = DEFAULT_CHAIN.id
-      }
       updateTx(tx.id, { status: 'signing', error: undefined })
       if (tx.plan.mode === 'transfer') {
         const invalid = transferError(tx.plan)
         if (invalid) throw new Error(invalid)
-        const hash = await sendTransactionAsync({ to: field(tx.plan, 'to') as `0x${string}`, value: parseEther(field(tx.plan, 'amount')), chainId: cid })
-        updateTx(tx.id, { status: 'submitted', hash, chainId: cid })
+        const from = new PublicKey(address)
+        const { blockhash } = await connection.getLatestBlockhash()
+        const transaction = new Transaction({ feePayer: from, recentBlockhash: blockhash }).add(
+          SystemProgram.transfer({ fromPubkey: from, toPubkey: new PublicKey(field(tx.plan, 'to')), lamports: solToLamports(field(tx.plan, 'amount')) }),
+        )
+        const signature = await walletProvider.sendTransaction(transaction, connection)
+        updateTx(tx.id, { status: 'submitted', hash: signature, networkId })
       } else {
-        const signature = await signTypedDataAsync({
-          domain: { name: 'Plainly', version: '1', chainId: cid },
-          types: {
-            Action: [
-              { name: 'action', type: 'string' },
-              { name: 'details', type: 'string' },
-              { name: 'issuedAt', type: 'uint256' },
-            ],
-          },
-          primaryType: 'Action',
-          message: {
-            action: planTitle(tx.plan),
-            details: tx.plan.fields.map((x) => `${x.label}: ${x.value}${x.suffix ? ` ${x.suffix}` : ''}`).join('; '),
-            issuedAt: BigInt(Math.floor(tx.at / 1000)),
-          },
-        })
-        updateTx(tx.id, { status: 'approved', signature, chainId: cid })
+        const signed = await walletProvider.signMessage(new TextEncoder().encode(approvalMessage(tx)))
+        updateTx(tx.id, { status: 'approved', signature: toBase64(signed), networkId })
       }
     } catch (err) {
       if (isUserRejection(err)) updateTx(tx.id, { status: 'pending', error: 'You declined the request in your wallet.' })
@@ -94,7 +101,7 @@ function TxItem({ tx }: { tx: PendingTx }) {
   const canSign = tx.status === 'pending' || tx.status === 'failed'
 
   return (
-    <li className="rounded-2xl bg-white p-4 ring-1 ring-line">
+    <li className="rounded-2xl bg-surface p-4 ring-1 ring-line">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="truncate text-sm font-semibold text-ink">{planTitle(tx.plan)}</p>
@@ -115,13 +122,13 @@ function TxItem({ tx }: { tx: PendingTx }) {
         ))}
       </dl>
 
-      {tx.error && <p className="mt-3 rounded-lg bg-[#fdecea] px-3 py-2 text-xs text-[#9b2c1f]">{tx.error}</p>}
+      {tx.error && <p className="mt-3 rounded-lg bg-danger-soft px-3 py-2 text-xs text-danger">{tx.error}</p>}
 
       {(tx.hash || tx.signature) && (
         <div className="mt-3 rounded-lg bg-mist px-3 py-2 text-xs">
-          {tx.hash && tx.chainId ? (
-            <a href={explorerTxUrl(tx.chainId, tx.hash)} target="_blank" rel="noreferrer" className="font-semibold text-brand-700 hover:underline">
-              View on {chainName(tx.chainId)} explorer
+          {tx.hash ? (
+            <a href={explorerTxUrl(tx.networkId, tx.hash)} target="_blank" rel="noopener noreferrer" className="font-semibold text-brand-700 hover:underline">
+              View on {networkName(tx.networkId)} explorer
             </a>
           ) : (
             <p className="truncate font-mono text-muted" title={tx.signature}>
@@ -137,7 +144,7 @@ function TxItem({ tx }: { tx: PendingTx }) {
             type="button"
             disabled={!canSign}
             onClick={sign}
-            className="h-9 flex-1 rounded-full bg-brand-800 text-sm font-semibold text-white transition hover:bg-brand-700 disabled:cursor-wait disabled:bg-brand-800/50"
+            className="h-9 flex-1 rounded-full bg-brand-800 text-sm font-semibold text-on-accent transition hover:bg-brand-700 disabled:cursor-wait disabled:bg-brand-800/50"
           >
             {tx.status === 'signing' ? 'Waiting for wallet…' : tx.status === 'submitted' ? 'Confirming…' : !isConnected ? 'Connect to sign' : tx.status === 'failed' ? 'Try again' : 'Sign'}
           </button>

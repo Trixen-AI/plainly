@@ -30,7 +30,7 @@ export function Capabilities() {
         </Reveal>
         <div className="grid gap-6 md:grid-cols-3 md:gap-10">
           {capabilities.map((c, i) => (
-            <Reveal key={c.id} delay={i * 0.08} className="group overflow-hidden rounded-xl bg-white ring-1 ring-ink/5 transition-shadow hover:shadow-[0_24px_48px_-28px_#0b1f1740]">
+            <Reveal key={c.id} delay={i * 0.08} className="group overflow-hidden rounded-xl bg-surface ring-1 ring-ink/5 transition-shadow hover:shadow-[0_24px_48px_-28px_#00000040]">
               <div className="panel-gradient m-1 aspect-[396/300] overflow-hidden rounded-lg">
                 <div className="h-full transition-transform duration-500 group-hover:scale-[1.03]">{scenes[c.id]}</div>
               </div>
@@ -53,7 +53,7 @@ export function Capabilities() {
 
 export function Security() {
   return (
-    <section className="bg-white px-4 py-20">
+    <section className="bg-surface px-4 py-20">
       <Container>
         <Reveal>
           <SectionTitle className="md:pt-0">You stay in control</SectionTitle>
@@ -69,7 +69,7 @@ export function Security() {
         </div>
         <div className="flex justify-center pt-20">
           <Button href="/docs/security" icon="arrow">
-            How Plainly keeps you safe
+            How TalkenFi keeps you safe
           </Button>
         </div>
       </Container>
@@ -88,10 +88,10 @@ export function Cta() {
   const current = examplePrompts[idx]
 
   return (
-    <section className="bg-white px-4 py-20">
+    <section className="bg-surface px-4 py-20">
       <Container className="grid gap-6 lg:grid-cols-[1fr_300px] lg:gap-6">
         <Reveal className="panel-gradient relative overflow-hidden rounded-lg px-6 py-14 md:px-8 md:py-20">
-          <div aria-hidden className="absolute -top-20 right-[-10%] h-[140%] w-[45%] rotate-[30deg] bg-white/25" />
+          <div aria-hidden className="absolute -top-20 right-[-10%] h-[140%] w-[45%] rotate-[30deg] bg-white/[0.04]" />
           <div className="relative flex max-w-[892px] flex-col gap-6">
             <h3 className="text-[40px] leading-[48px] font-semibold tracking-[-0.96px] text-brand-800 md:text-display-lg md:leading-[60px]">{cta.title}</h3>
             <p className="text-md text-brand-900">{cta.body}</p>
@@ -153,10 +153,10 @@ export function Footer() {
     <footer className="bg-mist">
       <Container className="px-4 md:px-10">
         <div className="flex items-center justify-between py-20">
-          <SmartLink href="/" aria-label="Plainly home">
+          <SmartLink href="/" aria-label="TalkenFi home">
             <Logo />
           </SmartLink>
-          <SmartLink href={X_URL} aria-label="Plainly on X (opens in a new tab)" className="grid size-12 place-items-center rounded-full bg-brand-900/5 transition hover:bg-brand-100">
+          <SmartLink href={X_URL} aria-label="TalkenFi on X (opens in a new tab)" className="grid size-12 place-items-center rounded-full bg-white/5 transition hover:bg-brand-100">
             <BrandLogo svg={OFFICIAL_LOGOS.X.svg} name="X" className="h-5 [&_path]:fill-ink" />
           </SmartLink>
         </div>
@@ -178,11 +178,11 @@ export function Footer() {
           ))}
         </div>
         <div className="flex flex-col gap-5 border-t border-line py-10 sm:flex-row sm:items-center">
-          <div className="grid size-20 shrink-0 place-items-center rounded-2xl bg-white text-center ring-1 ring-line">
+          <div className="grid size-20 shrink-0 place-items-center rounded-2xl bg-surface text-center ring-1 ring-line">
             <SecurityIcon id="custody" className="size-14" />
           </div>
           <p className="max-w-[672px] text-sm leading-[23px] text-muted">
-            Plainly is non-custodial software. You keep your keys, every transaction is shown to you before it runs, and nothing executes without your
+            TalkenFi is non-custodial software. You keep your keys, every transaction is shown to you before it runs, and nothing executes without your
             signature.
           </p>
         </div>

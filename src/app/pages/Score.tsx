@@ -26,7 +26,7 @@ function Chips({ value, options, onChange }: { value: string; options: string[];
           key={o}
           type="button"
           onClick={() => onChange(o)}
-          className={cn('h-9 rounded-full px-4 text-sm font-semibold ring-1 transition', value === o ? 'bg-brand-800 text-white ring-brand-800' : 'bg-white text-ink-soft ring-line hover:ring-brand-300')}
+          className={cn('h-9 rounded-full px-4 text-sm font-semibold ring-1 transition', value === o ? 'bg-brand-800 text-on-accent ring-brand-800' : 'bg-surface text-ink-soft ring-line hover:ring-brand-300')}
         >
           {o}
         </button>
@@ -74,7 +74,7 @@ export function Score() {
             <p className="mt-1 text-md text-muted">Check no-collateral loan options. Estimates are not an offer of credit.</p>
           </header>
 
-          <section className="grid gap-5 rounded-2xl bg-white p-5 ring-1 ring-line md:p-6">
+          <section className="grid gap-5 rounded-2xl bg-surface p-5 ring-1 ring-line md:p-6">
             <div>
               <p className="mb-3 text-sm font-semibold text-ink">1. What is it for?</p>
               <div className="grid gap-2 sm:grid-cols-2">
@@ -83,7 +83,7 @@ export function Score() {
                     key={l.id}
                     type="button"
                     onClick={() => setLoan(l.id)}
-                    className={cn('rounded-xl p-3 text-left ring-1 transition', loan === l.id ? 'bg-brand-50 ring-2 ring-brand-500' : 'bg-white ring-line hover:ring-brand-300')}
+                    className={cn('rounded-xl p-3 text-left ring-1 transition', loan === l.id ? 'bg-brand-50 ring-2 ring-brand-500' : 'bg-surface ring-line hover:ring-brand-300')}
                   >
                     <span className="block text-sm font-semibold text-ink">{l.id}</span>
                     <span className="block text-xs text-muted">{l.hint}</span>
@@ -101,7 +101,7 @@ export function Score() {
                     value={amount}
                     inputMode="decimal"
                     onChange={(e) => setAmount(e.target.value.replace(/[^\d.]/g, ''))}
-                    className="h-10 w-full rounded-xl border border-line bg-white pr-3 pl-7 text-sm text-ink focus:border-brand-300 focus:ring-2 focus:ring-brand-100 focus:outline-none"
+                    className="h-10 w-full rounded-xl border border-line bg-surface pr-3 pl-7 text-sm text-ink focus:border-brand-300 focus:ring-2 focus:ring-brand-100 focus:outline-none"
                   />
                 </div>
               </label>
@@ -123,7 +123,7 @@ export function Score() {
             </div>
 
             <label className="flex items-start gap-3 rounded-xl bg-mist p-3">
-              <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-1 size-4 accent-[#084b32]" />
+              <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-1 size-4 accent-[#9945ff]" />
               <span className="text-sm leading-6 text-ink-soft">
                 I agree to share these details for a pre-qualification check. It shows estimated options and is not an offer of credit or a guarantee of approval.
               </span>
@@ -131,7 +131,7 @@ export function Score() {
 
             <div className="flex flex-wrap items-center justify-between gap-3">
               <p className="text-xs text-muted">{isConnected ? 'You sign the request in your wallet. No funds move.' : 'Connect your wallet to sign the request.'}</p>
-              <button type="button" disabled={!ready} onClick={submit} className="h-10 rounded-full bg-brand-800 px-5 text-sm font-semibold text-white hover:bg-brand-700 disabled:cursor-not-allowed disabled:bg-brand-800/40">
+              <button type="button" disabled={!ready} onClick={submit} className="h-10 rounded-full bg-brand-800 px-5 text-sm font-semibold text-on-accent hover:bg-brand-700 disabled:cursor-not-allowed disabled:bg-brand-800/40">
                 Send for signature
               </button>
             </div>
@@ -144,7 +144,7 @@ export function Score() {
         </div>
 
         <aside className="grid content-start gap-4">
-          <div className="rounded-2xl bg-white p-5 ring-1 ring-line">
+          <div className="rounded-2xl bg-surface p-5 ring-1 ring-line">
             <p className="text-sm font-semibold text-ink">Your requests</p>
             {requests.length === 0 ? (
               <p className="mt-2 text-sm text-muted">No requests yet.</p>
@@ -166,7 +166,7 @@ export function Score() {
               <li>Repaying loans on time</li>
               <li>Keeping loan health high</li>
             </ul>
-            <Link to="/docs/plainly-score" className="mt-3 inline-block text-sm font-semibold text-brand-700 hover:underline">
+            <Link to="/docs/talkenfi-score" className="mt-3 inline-block text-sm font-semibold text-brand-700 hover:underline">
               How it works
             </Link>
           </div>

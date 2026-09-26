@@ -20,20 +20,20 @@ export type DocPage = {
   blocks: DocBlock[]
 }
 
-export const DOC_GROUPS = ['Getting started', 'Using Plainly', 'Loans', 'Developers', 'Safety & reference'] as const
+export const DOC_GROUPS = ['Getting started', 'Using TalkenFi', 'Loans', 'Developers', 'Safety & reference'] as const
 
 export const docs: DocPage[] = [
   {
     slug: 'introduction',
     group: 'Getting started',
     title: 'Introduction',
-    description: 'What Plainly is, what it can do for you, and how it keeps you in control.',
+    description: 'What TalkenFi is, what it can do for you, and how it keeps you in control.',
     blocks: [
       {
         type: 'p',
         text: [
-          { b: 'Plainly' },
-          ' is an AI agent that turns plain language into onchain transactions. You describe what you want in a sentence, Plainly works out the steps, and you review and sign the result from your own wallet.',
+          { b: 'TalkenFi' },
+          ' is an AI agent that turns plain language into onchain transactions. You describe what you want in a sentence, TalkenFi works out the steps, and you review and sign the result from your own wallet.',
         ],
       },
       { type: 'h2', id: 'what-you-can-do', text: 'What you can do' },
@@ -52,8 +52,8 @@ export const docs: DocPage[] = [
       {
         type: 'steps',
         items: [
-          { title: 'You ask', body: ['Type a request such as ', { code: 'swap 200 USDC for ETH' }, '. No contract addresses or settings needed.'] },
-          { title: 'Plainly plans', body: ['The agent picks the protocol and route, then prepares the transaction and shows what will happen.'] },
+          { title: 'You ask', body: ['Type a request such as ', { code: 'swap 200 USDC for SOL' }, '. No contract addresses or settings needed.'] },
+          { title: 'TalkenFi plans', body: ['The agent picks the protocol and route, then prepares the transaction and shows what will happen.'] },
           { title: 'You review and sign', body: ['Nothing moves until you approve it in your wallet. You can cancel at any point.'] },
         ],
       },
@@ -61,7 +61,7 @@ export const docs: DocPage[] = [
         type: 'callout',
         tone: 'note',
         title: 'Non-custodial',
-        body: ['Plainly never holds your funds. Assets stay in your wallet, and every action needs your signature. Read more in ', { link: { label: 'Security', to: '/docs/security' } }, '.'],
+        body: ['TalkenFi never holds your funds. Assets stay in your wallet, and every action needs your signature. Read more in ', { link: { label: 'Security', to: '/docs/security' } }, '.'],
       },
       { type: 'h2', id: 'next-steps', text: 'Next steps' },
       {
@@ -69,7 +69,7 @@ export const docs: DocPage[] = [
         items: [
           [{ link: { label: 'Quickstart', to: '/docs/quickstart' } }, ': connect a wallet and run your first prompt.'],
           [{ link: { label: 'Writing prompts', to: '/docs/writing-prompts' } }, ': get better results with clearer requests.'],
-          [{ link: { label: 'Supported protocols', to: '/docs/protocols' } }, ': see where Plainly can route your actions.'],
+          [{ link: { label: 'Supported protocols', to: '/docs/protocols' } }, ': see where TalkenFi can route your actions.'],
         ],
       },
     ],
@@ -83,7 +83,7 @@ export const docs: DocPage[] = [
       { type: 'h2', id: 'connect', text: '1. Connect your wallet' },
       {
         type: 'p',
-        text: ['Open the app and choose ', { b: 'Connect Wallet' }, '. Plainly reads your balances and positions so it can plan actions, but it cannot move anything without your signature.'],
+        text: ['Open the app and choose ', { b: 'Connect Wallet' }, '. TalkenFi reads your balances and positions so it can plan actions, but it cannot move anything without your signature.'],
       },
       { type: 'h2', id: 'credits', text: '2. Check your credits' },
       {
@@ -92,7 +92,7 @@ export const docs: DocPage[] = [
       },
       { type: 'h2', id: 'first-prompt', text: '3. Ask for something' },
       { type: 'p', text: ['Start with a simple request. For example:'] },
-      { type: 'prompts', items: ['What’s in my wallet right now?', 'Swap 50 USDC for ETH', 'Where can my USDC earn the most?'] },
+      { type: 'prompts', items: ['What’s in my wallet right now?', 'Swap 50 USDC for SOL', 'Where can my USDC earn the most?'] },
       { type: 'h2', id: 'sign', text: '4. Review and sign' },
       {
         type: 'p',
@@ -122,7 +122,7 @@ export const docs: DocPage[] = [
         items: [
           ['Your credit balance is shown in the app sidebar as ', { i: 'credits to spend via AI' }, '.'],
           ['Use ', { b: 'Buy +' }, ' in the sidebar to add more.'],
-          ['Your PLAIN token balance, in wallet and staked, is shown next to it.'],
+          ['Your staked token balance is shown next to it.'],
         ],
       },
       { type: 'h2', id: 'what-uses-credits', text: 'What uses credits' },
@@ -134,7 +134,7 @@ export const docs: DocPage[] = [
   },
   {
     slug: 'writing-prompts',
-    group: 'Using Plainly',
+    group: 'Using TalkenFi',
     title: 'Writing prompts',
     description: 'Clear requests get clear transactions. Tips and examples.',
     blocks: [
@@ -142,15 +142,15 @@ export const docs: DocPage[] = [
       {
         type: 'list',
         items: [
-          [{ b: 'Say the amount and the asset' }, ': ', { code: 'swap 200 USDC for ETH' }, ' beats ', { code: 'buy some ETH' }, '.'],
+          [{ b: 'Say the amount and the asset' }, ': ', { code: 'swap 200 USDC for SOL' }, ' beats ', { code: 'buy some SOL' }, '.'],
           [{ b: 'Say the goal and the limits' }, ': ', { code: 'borrow $2,000 but keep me far from liquidation' }, '.'],
-          [{ b: 'Chain steps in one sentence' }, ': ', { code: 'bridge 0.5 ETH to Robinhood Chain and buy $300 of stocks' }, '.'],
+          [{ b: 'Chain steps in one sentence' }, ': ', { code: 'bridge 200 USDC to Solana and buy $150 of stocks' }, '.'],
           [{ b: 'Ask questions first when unsure' }, ': ', { code: 'what would I earn in a year?' }, ' before depositing.'],
         ],
       },
       { type: 'h2', id: 'examples', text: 'Examples by area' },
       { type: 'h3', text: 'Trading' },
-      { type: 'prompts', items: ['Swap 200 USDC for ETH', 'Buy ETH if it drops to $2,800', 'Send 25 USDC to maya.eth'] },
+      { type: 'prompts', items: ['Swap 200 USDC for SOL', 'Buy SOL if it drops to $150', 'Send 0.5 SOL to a saved address'] },
       { type: 'h3', text: 'Borrowing and earning' },
       { type: 'prompts', items: ['Move my idle USDC to the best stable yield', 'Repay half of my loan', 'Claim every reward I’m owed'] },
       { type: 'h3', text: 'Loans and planning' },
@@ -158,30 +158,30 @@ export const docs: DocPage[] = [
       {
         type: 'callout',
         tone: 'note',
-        title: 'Plainly asks when something is missing',
+        title: 'TalkenFi asks when something is missing',
         body: ['If a request is ambiguous, for example no amount is given, the agent asks a follow-up question instead of guessing.'],
       },
     ],
   },
   {
     slug: 'trading',
-    group: 'Using Plainly',
+    group: 'Using TalkenFi',
     title: 'Trading',
     description: 'Swap, place limit orders, bridge, send, and open loops or shorts.',
     blocks: [
       { type: 'h2', id: 'swap', text: 'Swap tokens' },
       {
         type: 'p',
-        text: ['Ask for the pair and amount. Plainly finds a route across supported exchanges, quotes the price and prepares the swap for you to sign.'],
+        text: ['Ask for the pair and amount. TalkenFi finds a route across supported exchanges, quotes the price and prepares the swap for you to sign.'],
       },
-      { type: 'prompts', items: ['Swap 200 USDC for ETH'] },
+      { type: 'prompts', items: ['Swap 200 USDC for SOL'] },
       { type: 'h2', id: 'limit-orders', text: 'Limit orders' },
       { type: 'p', text: ['Set the price you want to buy or sell at. The order waits until the market reaches it.'] },
-      { type: 'prompts', items: ['Sell 1 ETH if it reaches $4,000'] },
+      { type: 'prompts', items: ['Sell 10 SOL if it reaches $250'] },
       { type: 'h2', id: 'bridge', text: 'Bridge' },
-      { type: 'p', text: ['Move assets from another network to Robinhood Chain, or back. The preview shows both sides of the transfer.'] },
+      { type: 'p', text: ['Move assets from another network to Solana, or back. The preview shows both sides of the transfer.'] },
       { type: 'h2', id: 'send', text: 'Send' },
-      { type: 'p', text: ['Send tokens to an address or a name. Plainly repeats the recipient back to you before you sign.'] },
+      { type: 'p', text: ['Send tokens to an address or a name. TalkenFi repeats the recipient back to you before you sign.'] },
       { type: 'h2', id: 'loop-and-short', text: 'Loop and short' },
       {
         type: 'p',
@@ -191,7 +191,7 @@ export const docs: DocPage[] = [
         type: 'callout',
         tone: 'warning',
         title: 'Leverage increases risk',
-        body: ['Loops and shorts can be liquidated if prices move against you. Ask Plainly to explain the liquidation price before you sign.'],
+        body: ['Loops and shorts can be liquidated if prices move against you. Ask TalkenFi to explain the liquidation price before you sign.'],
       },
       { type: 'h2', id: 'markets', text: 'Markets and research' },
       { type: 'p', text: ['Ask what is moving today, or ask for a plain-English breakdown of a coin before you trade it.'] },
@@ -200,14 +200,14 @@ export const docs: DocPage[] = [
   },
   {
     slug: 'borrowing',
-    group: 'Using Plainly',
+    group: 'Using TalkenFi',
     title: 'Borrowing',
     description: 'Borrow against tokens or tokenized stocks, then roll over or repay.',
     blocks: [
       { type: 'h2', id: 'use-collateral', text: 'Use collateral' },
       {
         type: 'p',
-        text: ['Deposit tokens or tokenized stocks as collateral and borrow against them. Plainly compares lending markets such as Aave, Morpho and Silo and shows the rate and loan health before you sign.'],
+        text: ['Deposit tokens or tokenized stocks as collateral and borrow against them. TalkenFi compares lending markets such as Kamino and Drift and shows the rate and loan health before you sign.'],
       },
       { type: 'prompts', items: ['Borrow $2,000 against my tokenized stocks, but keep me far from liquidation'] },
       { type: 'h2', id: 'loan-health', text: 'Loan health' },
@@ -226,14 +226,14 @@ export const docs: DocPage[] = [
   },
   {
     slug: 'earning',
-    group: 'Using Plainly',
+    group: 'Using TalkenFi',
     title: 'Earning',
     description: 'Find yield, lend at your own rate, provide liquidity and claim rewards.',
     blocks: [
       { type: 'h2', id: 'best-yield', text: 'Find the best yield' },
       {
         type: 'p',
-        text: ['Ask where an asset can earn the most. Plainly ranks options from lending markets, Pendle and exchange liquidity pools and explains the trade-offs.'],
+        text: ['Ask where an asset can earn the most. TalkenFi ranks options from lending markets, Jito staking and exchange liquidity pools and explains the trade-offs.'],
       },
       {
         type: 'callout',
@@ -247,16 +247,16 @@ export const docs: DocPage[] = [
       { type: 'p', text: ['Create a lending offer with your own rate and term. You can see and manage open offers under My lending offers.'] },
       { type: 'prompts', items: ['Lend 1,000 USDC at 9% for 30 days and tell me when it’s matched'] },
       { type: 'h2', id: 'liquidity', text: 'Provide liquidity' },
-      { type: 'p', text: ['Add liquidity to exchange pools on Aerodrome, Uniswap or PancakeSwap and earn a share of trading fees.'] },
+      { type: 'p', text: ['Add liquidity to exchange pools on Raydium, Orca or Meteora and earn a share of trading fees.'] },
       { type: 'h2', id: 'rewards', text: 'Staked positions and rewards' },
       { type: 'p', text: ['See your staked positions, earn extra rewards, and claim what you are owed across protocols in one request.'] },
     ],
   },
   {
     slug: 'stocks',
-    group: 'Using Plainly',
+    group: 'Using TalkenFi',
     title: 'Stocks',
-    description: 'Buy, sell and borrow against tokenized stocks on Robinhood Chain.',
+    description: 'Buy, sell and borrow against tokenized stocks on Solana.',
     blocks: [
       { type: 'h2', id: 'buy-sell', text: 'Buy and sell stocks' },
       { type: 'p', text: ['Buy or sell tokenized stocks with a sentence, in the same place you trade tokens.'] },
@@ -284,7 +284,7 @@ export const docs: DocPage[] = [
     blocks: [
       {
         type: 'p',
-        text: ['Plainly can check whether you pre-qualify for loans that do not need crypto collateral, and show estimated rates in the conversation.'],
+        text: ['TalkenFi can check whether you pre-qualify for loans that do not need crypto collateral, and show estimated rates in the conversation.'],
       },
       {
         type: 'callout',
@@ -310,23 +310,23 @@ export const docs: DocPage[] = [
         type: 'steps',
         items: [
           { title: 'Ask', body: [{ code: 'Am I pre-qualified for an auto loan?' }] },
-          { title: 'Share what is needed', body: ['Plainly tells you which details or accounts help the check, and you choose what to connect.'] },
+          { title: 'Share what is needed', body: ['TalkenFi tells you which details or accounts help the check, and you choose what to connect.'] },
           { title: 'Compare', body: ['See estimated options side by side, then decide whether to continue with a lender.'] },
         ],
       },
       { type: 'h2', id: 'score', text: 'Your score' },
-      { type: 'p', text: ['Pre-qualification uses your Plainly Score. See ', { link: { label: 'Plainly Score', to: '/docs/plainly-score' } }, '.'] },
+      { type: 'p', text: ['Pre-qualification uses your TalkenFi Score. See ', { link: { label: 'TalkenFi Score', to: '/docs/talkenfi-score' } }, '.'] },
     ],
   },
   {
-    slug: 'plainly-score',
+    slug: 'talkenfi-score',
     group: 'Loans',
-    title: 'Plainly Score',
+    title: 'TalkenFi Score',
     description: 'The private profile that powers pre-qualification and rate estimates.',
     blocks: [
       {
         type: 'p',
-        text: ['Your Plainly Score is built from your onchain history and the accounts you choose to connect. It powers no-collateral pre-qualification and helps produce clearer rate estimates.'],
+        text: ['Your TalkenFi Score is built from your onchain history and the accounts you choose to connect. It powers no-collateral pre-qualification and helps produce clearer rate estimates.'],
       },
       { type: 'h2', id: 'see-it', text: 'See your score' },
       { type: 'p', text: ['Open ', { b: 'Account → My Score' }, ' in the app, or ask ', { code: 'show my score' }, '. You can also open ', { b: 'See rates' }, ' from the same menu.'] },
@@ -350,18 +350,18 @@ export const docs: DocPage[] = [
   {
     slug: 'mcp',
     group: 'Developers',
-    title: 'Plainly MCP',
+    title: 'TalkenFi MCP',
     description: 'Give any MCP-compatible AI agent a wallet that listens, with a human signature on every transaction.',
     blocks: [
       {
         type: 'p',
-        text: ['The Plainly MCP server exposes Plainly’s actions as tools, so an AI agent you already use can plan swaps, loans and yield actions. Every transaction still needs a signature from your wallet.'],
+        text: ['The TalkenFi MCP server exposes TalkenFi’s actions as tools, so an AI agent you already use can plan swaps, loans and yield actions. Every transaction still needs a signature from your wallet.'],
       },
       { type: 'h2', id: 'add', text: 'Add the server' },
       {
         type: 'steps',
         items: [
-          { title: 'Open the app', body: ['Choose ', { b: 'Add Plainly MCP' }, ' in the sidebar and copy your server URL.'] },
+          { title: 'Open the app', body: ['Choose ', { b: 'Add TalkenFi MCP' }, ' in the sidebar and copy your server URL.'] },
           { title: 'Add it to your agent', body: ['Paste the URL into your MCP client’s server settings. Most clients use a config like the one below.'] },
           { title: 'Choose allowed actions', body: ['Pick which actions the agent may prepare. Leave the rest off.'] },
         ],
@@ -371,7 +371,7 @@ export const docs: DocPage[] = [
         label: 'mcp config (example)',
         code: `{
   "mcpServers": {
-    "plainly": {
+    "talkenfi": {
       "url": "<paste the server URL from the app>"
     }
   }
@@ -381,7 +381,7 @@ export const docs: DocPage[] = [
         type: 'callout',
         tone: 'note',
         title: 'Use the URL from the app',
-        body: ['The value above is a placeholder. Copy the exact URL shown under Add Plainly MCP, and keep it private.'],
+        body: ['The value above is a placeholder. Copy the exact URL shown under Add TalkenFi MCP, and keep it private.'],
       },
       { type: 'h2', id: 'tools', text: 'What the agent can do' },
       {
@@ -400,10 +400,10 @@ export const docs: DocPage[] = [
     slug: 'security',
     group: 'Safety & reference',
     title: 'Security',
-    description: 'How Plainly keeps you in control of every transaction.',
+    description: 'How TalkenFi keeps you in control of every transaction.',
     blocks: [
       { type: 'h2', id: 'non-custodial', text: 'Non-custodial by design' },
-      { type: 'p', text: ['Plainly never holds your funds or your keys. Assets stay in your wallet, and every action needs your signature.'] },
+      { type: 'p', text: ['TalkenFi never holds your funds or your keys. Assets stay in your wallet, and every action needs your signature.'] },
       { type: 'h2', id: 'preview', text: 'Previewed before you sign' },
       { type: 'p', text: ['Each transaction shows expected amounts, fees and risks before you approve it, so nothing surprises you afterwards.'] },
       { type: 'h2', id: 'limits', text: 'Limits you can always see' },
@@ -413,7 +413,7 @@ export const docs: DocPage[] = [
         type: 'list',
         items: [
           ['Check the recipient, amount and protocol on every preview.'],
-          ['Never share your seed phrase. Plainly will never ask for it.'],
+          ['Never share your seed phrase. TalkenFi will never ask for it.'],
           ['Keep your MCP server URL private and turn off actions you do not use.'],
         ],
       },
@@ -423,20 +423,19 @@ export const docs: DocPage[] = [
     slug: 'protocols',
     group: 'Safety & reference',
     title: 'Supported protocols',
-    description: 'Where Plainly can route your actions today.',
+    description: 'Where TalkenFi can route your actions today.',
     blocks: [
-      { type: 'p', text: ['Plainly routes actions across these protocols. Logos are shown as provided by each project.'] },
+      { type: 'p', text: ['TalkenFi routes actions across these protocols. Logos are shown as provided by each project.'] },
       {
         type: 'protocols',
         items: [
-          { name: 'Aave', role: 'Lending and borrowing' },
-          { name: 'Morpho', role: 'Lending and borrowing' },
-          { name: 'Silo', role: 'Lending and borrowing' },
-          { name: 'Pendle', role: 'Yield' },
-          { name: 'Aerodrome', role: 'Exchange liquidity' },
-          { name: 'Uniswap', role: 'Swaps and liquidity' },
-          { name: 'PancakeSwap', role: 'Swaps and liquidity' },
-          { name: 'Polymarket', role: 'Prediction markets' },
+          { name: 'Jupiter', role: 'Swaps and limit orders' },
+          { name: 'Raydium', role: 'Swaps and liquidity' },
+          { name: 'Orca', role: 'Swaps and liquidity' },
+          { name: 'Meteora', role: 'Liquidity pools' },
+          { name: 'Kamino', role: 'Lending, borrowing and loops' },
+          { name: 'Drift', role: 'Perpetuals and shorts' },
+          { name: 'Jito', role: 'Liquid staking' },
         ],
       },
     ],
@@ -447,14 +446,14 @@ export const docs: DocPage[] = [
     title: 'FAQ',
     description: 'Short answers to common questions.',
     blocks: [
-      { type: 'h3', text: 'Can Plainly move my funds without me?' },
+      { type: 'h3', text: 'Can TalkenFi move my funds without me?' },
       { type: 'p', text: ['No. Every transaction needs your signature in your wallet.'] },
       { type: 'h3', text: 'What do credits pay for?' },
       { type: 'p', text: ['The AI agent. Network fees are separate and shown when you sign. See ', { link: { label: 'Credits', to: '/docs/credits' } }, '.'] },
       { type: 'h3', text: 'Is pre-qualification a loan offer?' },
       { type: 'p', text: ['No. It shows estimated options. Final terms come from the lender.'] },
-      { type: 'h3', text: 'Which network does Plainly use?' },
-      { type: 'p', text: ['Plainly settles on Robinhood Chain, and can bridge assets to and from other networks.'] },
+      { type: 'h3', text: 'Which network does TalkenFi use?' },
+      { type: 'p', text: ['TalkenFi settles on Solana, and can bridge assets in from other networks.'] },
       { type: 'h3', text: 'Where do I get help?' },
       { type: 'p', text: ['Use ', { b: 'Ask a question' }, ' or ', { b: 'Request a beta feature' }, ' in the app. Priority support is available from the Support menu.'] },
     ],

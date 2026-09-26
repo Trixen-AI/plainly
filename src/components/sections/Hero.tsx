@@ -1,8 +1,8 @@
 import { motion } from 'motion/react'
 import { APP_URL, hero, protocols, stats, statement } from '@/data/content'
 import { HeroWaves } from '@/components/illustrations/Illustrations'
-import { OFFICIAL_LOGOS } from '@/assets/logos'
-import { BrandLogo, Button, Container, Highlight, Reveal, Rich } from '@/components/ui/primitives'
+import { ProtocolLogo } from '@/components/ProtocolLogo'
+import { Button, Container, Highlight, Reveal, Rich } from '@/components/ui/primitives'
 import { EASE } from '@/lib/utils'
 
 export function Hero() {
@@ -41,7 +41,7 @@ export function Hero() {
       </div>
       {/* curved bottom edge */}
       <svg viewBox="0 0 1440 90" preserveAspectRatio="none" className="absolute inset-x-0 bottom-0 h-[50px] w-full md:h-[90px]" aria-hidden>
-        <path d="M0 90V52C360 -10 1080 -10 1440 52v38z" fill="#fff" />
+        <path d="M0 90V52C360 -10 1080 -10 1440 52v38z" fill="#0b0a10" />
       </svg>
     </section>
   )
@@ -49,10 +49,9 @@ export function Hero() {
 
 // Official logos only (src/assets/logos, source URLs listed there).
 function ProtocolMark({ name }: { name: string }) {
-  const logo = OFFICIAL_LOGOS[name]
   return (
     <span className="flex h-8 shrink-0 items-center px-10">
-      <BrandLogo svg={logo.svg} name={name} className="h-7" />
+      <ProtocolLogo name={name} className="h-7" textClassName="text-[22px]" />
     </span>
   )
 }
@@ -60,7 +59,7 @@ function ProtocolMark({ name }: { name: string }) {
 export function Integrations() {
   const row = [...protocols, ...protocols]
   return (
-    <section className="border-t border-line/60 bg-white py-5" aria-label="Protocols Plainly routes across">
+    <section className="border-t border-line/60 bg-surface py-5" aria-label="Protocols TalkenFi routes across">
       <p className="text-center text-sm font-medium tracking-[0.15em] text-brand-900 uppercase">Routes across</p>
       <div className="relative mt-10 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_10%,#000_90%,transparent)]">
         <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
@@ -75,7 +74,7 @@ export function Integrations() {
 
 export function StatsStatement() {
   return (
-    <section className="bg-white pt-[112px]">
+    <section className="bg-surface pt-[112px]">
       <Container className="grid gap-10 md:grid-cols-3 md:gap-0">
         {stats.map((s, i) => (
           <Reveal key={s.label} delay={i * 0.08} className="px-5 text-center">

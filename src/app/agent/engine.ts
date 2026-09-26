@@ -1,9 +1,9 @@
-import { isAddress, parseEther } from 'viem'
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js'
 
 /**
  * Rule-based intent engine: plain sentence in, interactive plan out.
  * Every plan has editable fields and a Sign action:
- * - `transfer` plans send a real native ETH transaction on Robinhood Chain.
+ * - `transfer` plans send a real native SOL transfer on Solana.
  * - `approval` plans ask the wallet to sign the action as a typed message (free, no funds move). Replace the
  *   approval handler with protocol execution when routing is connected.
  */
@@ -56,16 +56,28 @@ export type AgentReply = {
 
 export type AgentContext = { address?: string; chainName?: string; connected: boolean }
 
-export const TOKENS = ['ETH', 'USDC', 'USDT', 'WBTC', 'DAI']
-export const EXCHANGES = ['Best route', 'Uniswap', 'Aerodrome', 'PancakeSwap']
-export const LENDING = ['Best rate', 'Aave', 'Morpho', 'Silo']
-export const YIELD = ['Best yield', 'Aave', 'Morpho', 'Silo', 'Pendle']
-export const POOLS = ['Aerodrome', 'Uniswap', 'PancakeSwap']
+export const TOKENS = ['SOL', 'USDC', 'USDT', 'JitoSOL', 'JUP']
+export const EXCHANGES = ['Best route', 'Jupiter', 'Raydium', 'Orca']
+export const LENDING = ['Best rate', 'Kamino', 'Drift']
+export const YIELD = ['Best yield', 'Kamino', 'Jito', 'Meteora']
+export const POOLS = ['Raydium', 'Orca', 'Meteora']
 
 const num = (s?: string, fallback = '') => (s ? s.replace(/,/g, '') : fallback)
-const token = (s?: string, fallback = 'USDC') => {
-  const t = (s ?? '').toUpperCase()
-  return TOKENS.includes(t) ? t : fallback
+const token = (s?: string, fallback = 'USDC') => TOKENS.find((x) => x.toLowerCase() === (s ?? '').toLowerCase()) ?? fallback
+
+/** A Solana address is a base58 public key (32 bytes). */
+export function isSolAddress(value: string) {
+  try {
+    return new PublicKey(value.trim()).toBytes().length === 32
+  } catch {
+    return false
+  }
+}
+
+/** SOL amount string to lamports; NaN when the amount is not a positive number. */
+export function solToLamports(amount: string) {
+  const n = Number(amount)
+  return Number.isFinite(n) && n > 0 ? Math.round(n * LAMPORTS_PER_SOL) : Number.NaN
 }
 const f = (key: string, label: string, value: string, type: FieldType, extra: Partial<PlanField> = {}): PlanField => ({ key, label, value, type, ...extra })
 
@@ -78,13 +90,13 @@ export function planTitle(plan: Plan) {
   const v = (k: string) => field(plan, k)
   switch (plan.kind) {
     case 'send':
-      return `Send ${v('amount') || '…'} ETH`
+      return `Send ${v('amount') || '…'} SOL`
     case 'swap':
       return `Swap ${v('amount') || '…'} ${v('from')} → ${v('to')}`
     case 'limit':
       return `${v('side')} ${v('amount') || '…'} ${v('token')} at $${v('price') || '…'}`
     case 'bridge':
-      return `Bridge ${v('amount') || '…'} ${v('token')} to Robinhood Chain`
+      return `Bridge ${v('amount') || '…'} ${v('token')} to Solana`
     case 'loop':
       return `Loop ${v('token')} at ${v('leverage')}`
     case 'short':
@@ -119,7 +131,7 @@ export function planTitle(plan: Plan) {
 export function planIsComplete(plan: Plan) {
   return plan.fields.every((x) => {
     if (x.type === 'amount' || x.type === 'price' || x.type === 'percent' || x.type === 'days') return Number(x.value) > 0
-    if (x.type === 'address') return isAddress(x.value)
+    if (x.type === 'address') return isSolAddress(x.value)
     return x.value.trim().length > 0
   })
 }
@@ -129,12 +141,9 @@ export function transferError(plan: Plan): string | null {
   if (plan.mode !== 'transfer') return null
   const to = field(plan, 'to')
   const amount = field(plan, 'amount')
-  if (!isAddress(to)) return 'Enter a valid 0x recipient address.'
-  try {
-    if (parseEther(amount) <= 0n) return 'Enter an amount above zero.'
-  } catch {
-    return 'Enter a valid ETH amount.'
-  }
+  if (!isSolAddress(to)) return 'Enter a valid Solana address.'
+  const lamports = solToLamports(amount)
+  if (Number.isNaN(lamports) || lamports < 1) return 'Enter a SOL amount above zero.'
   return null
 }
 
@@ -144,26 +153,26 @@ const sign = (ctx: AgentContext) => (ctx.connected ? 'Adjust anything below, the
 
 const rules: Rule[] = [
   {
-    test: /\bsend\s+([\d.,]+)?\s*(?:eth)?\s*(?:to\s+(\S+))?/i,
+    test: /\bsend\s+([\d.,]+)?\s*(?:sol)?\s*(?:to\s+(\S+))?/i,
     reply: (m, ctx) => {
       const to = (m[2] ?? '').replace(/[.,;!?]+$/, '')
       return {
-        text: `I prepared a native ETH transfer on Robinhood Chain. ${sign(ctx)}`,
-        steps: ['Read the recipient and amount', 'Built a transfer on Robinhood Chain', 'Ready for your signature'],
+        text: `I prepared a SOL transfer on Solana. ${sign(ctx)}`,
+        steps: ['Read the recipient and amount', 'Built a transfer on Solana', 'Ready for your signature'],
         plan: {
           kind: 'send',
           mode: 'transfer',
-          fields: [f('amount', 'Amount', num(m[1], '0.001'), 'amount', { suffix: 'ETH' }), f('to', 'Recipient', to.startsWith('0x') ? to : '', 'address')],
+          fields: [f('amount', 'Amount', num(m[1], '0.01'), 'amount', { suffix: 'SOL' }), f('to', 'Recipient', isSolAddress(to) ? to : '', 'address')],
         },
       }
     },
   },
   {
-    test: /\b(balance|wallet|portfolio|holdings|what'?s in my|what’s in my|how much eth)\b/i,
+    test: /\b(balance|wallet|portfolio|holdings|what'?s in my|what’s in my|how much sol)\b/i,
     reply: (_m, ctx) => ({
-      text: ctx.connected ? 'Here’s your wallet on Robinhood Chain right now.' : 'Connect your wallet and I’ll read your balances on Robinhood Chain.',
+      text: ctx.connected ? 'Here’s your wallet on Solana right now.' : 'Connect your wallet and I’ll read your SOL balance.',
       card: 'balance',
-      suggestions: ['Send 0.001 ETH to 0x', 'Swap 100 USDC for ETH'],
+      suggestions: ['Send 0.01 SOL to ', 'Swap 100 USDC for SOL'],
     }),
   },
   {
@@ -177,7 +186,7 @@ const rules: Rule[] = [
         fields: [
           f('amount', 'You pay', num(m[1], '100'), 'amount'),
           f('from', 'Pay token', token(m[2], 'USDC'), 'token', { options: TOKENS }),
-          f('to', 'Receive token', token(m[3], 'ETH'), 'token', { options: TOKENS }),
+          f('to', 'Receive token', token(m[3], 'SOL'), 'token', { options: TOKENS }),
           f('route', 'Route', 'Best route', 'select', { options: EXCHANGES }),
           f('slippage', 'Max slippage', '0.5', 'percent', { suffix: '%' }),
         ],
@@ -194,7 +203,7 @@ const rules: Rule[] = [
         fields: [
           f('side', 'Side', m[1][0].toUpperCase() + m[1].slice(1).toLowerCase(), 'select', { options: ['Buy', 'Sell'] }),
           f('amount', 'Amount', '1', 'amount'),
-          f('token', 'Token', 'ETH', 'token', { options: TOKENS }),
+          f('token', 'Token', 'SOL', 'token', { options: TOKENS }),
           f('price', 'Limit price', num(m[3], '2800'), 'price', { suffix: 'USD' }),
         ],
       },
@@ -203,14 +212,14 @@ const rules: Rule[] = [
   {
     test: /\bbridge\s*([\d.,]+)?\s*([a-z]+)?/i,
     reply: (m, ctx) => ({
-      text: `I prepared a bridge to Robinhood Chain. ${sign(ctx)}`,
+      text: `I prepared a bridge to Solana. ${sign(ctx)}`,
       plan: {
         kind: 'bridge',
         mode: 'approval',
         fields: [
           f('amount', 'Amount', num(m[1], '0.1'), 'amount'),
-          f('token', 'Token', token(m[2], 'ETH'), 'token', { options: TOKENS }),
-          f('source', 'From network', 'Ethereum', 'select', { options: ['Ethereum', 'Base', 'Arbitrum', 'Optimism'] }),
+          f('token', 'Token', token(m[2], 'USDC'), 'token', { options: TOKENS }),
+          f('source', 'From network', 'Ethereum', 'select', { options: ['Ethereum', 'Base', 'Arbitrum', 'BNB Chain'] }),
         ],
       },
     }),
@@ -222,7 +231,7 @@ const rules: Rule[] = [
       plan: {
         kind: 'loop',
         mode: 'approval',
-        fields: [f('token', 'Asset', 'ETH', 'token', { options: TOKENS }), f('amount', 'Starting amount', '1', 'amount'), f('leverage', 'Leverage', '2x', 'select', { options: ['1.5x', '2x', '3x'] })],
+        fields: [f('token', 'Asset', 'SOL', 'token', { options: TOKENS }), f('amount', 'Starting amount', '1', 'amount'), f('leverage', 'Leverage', '2x', 'select', { options: ['1.5x', '2x', '3x'] })],
         risk: 'Higher leverage moves the liquidation price closer. Keep an eye on loan health.',
       },
     }),
@@ -234,7 +243,7 @@ const rules: Rule[] = [
       plan: {
         kind: 'short',
         mode: 'approval',
-        fields: [f('token', 'Asset', 'ETH', 'token', { options: TOKENS }), f('amount', 'Collateral', '500', 'amount', { suffix: 'USDC' }), f('leverage', 'Leverage', '2x', 'select', { options: ['1.5x', '2x', '3x'] })],
+        fields: [f('token', 'Asset', 'SOL', 'token', { options: TOKENS }), f('amount', 'Collateral', '500', 'amount', { suffix: 'USDC' }), f('leverage', 'Leverage', '2x', 'select', { options: ['1.5x', '2x', '3x'] })],
         risk: 'If the price rises, the position can be liquidated.',
       },
     }),
@@ -243,7 +252,7 @@ const rules: Rule[] = [
     test: /\brepay\b/i,
     reply: (_m, ctx) => ({
       text: `I set up the repayment. ${sign(ctx)}`,
-      plan: { kind: 'repay', mode: 'approval', fields: [f('share', 'Repay', '50%', 'select', { options: ['25%', '50%', '75%', '100%'] }), f('market', 'Loan on', 'Aave', 'select', { options: LENDING.slice(1) })] },
+      plan: { kind: 'repay', mode: 'approval', fields: [f('share', 'Repay', '50%', 'select', { options: ['25%', '50%', '75%', '100%'] }), f('market', 'Loan on', 'Kamino', 'select', { options: LENDING.slice(1) })] },
     }),
   },
   {
@@ -257,14 +266,14 @@ const rules: Rule[] = [
     test: /\b(borrow|collateral|my loans?)\b\D*([\d.,]+)?/i,
     reply: (m, ctx) => ({
       text: `I compared lending markets and set up the loan. ${sign(ctx)}`,
-      steps: ['Read your collateral', 'Compared Aave, Morpho and Silo', 'Kept loan health in a safe range'],
+      steps: ['Read your collateral', 'Compared Kamino and Drift', 'Kept loan health in a safe range'],
       plan: {
         kind: 'borrow',
         mode: 'approval',
         fields: [
           f('amount', 'Borrow', num(m[2], '500'), 'amount'),
           f('token', 'Token', 'USDC', 'token', { options: TOKENS }),
-          f('collateral', 'Collateral', 'ETH', 'select', { options: ['ETH', 'WBTC', 'Tokenized stocks'] }),
+          f('collateral', 'Collateral', 'SOL', 'select', { options: ['SOL', 'JitoSOL', 'Tokenized stocks'] }),
           f('market', 'Market', 'Best rate', 'select', { options: LENDING }),
         ],
         risk: 'Borrowing can be liquidated if your collateral loses value.',
@@ -293,13 +302,13 @@ const rules: Rule[] = [
     test: /\bwithdraw\b\D*([\d.,]+)?\s*([a-z]+)?/i,
     reply: (m, ctx) => ({
       text: `I prepared the withdrawal. ${sign(ctx)}`,
-      plan: { kind: 'withdraw', mode: 'approval', fields: [f('amount', 'Amount', num(m[1], '100'), 'amount'), f('token', 'Token', token(m[2], 'USDC'), 'token', { options: TOKENS }), f('venue', 'From', 'Aave', 'select', { options: YIELD.slice(1) })] },
+      plan: { kind: 'withdraw', mode: 'approval', fields: [f('amount', 'Amount', num(m[1], '100'), 'amount'), f('token', 'Token', token(m[2], 'USDC'), 'token', { options: TOKENS }), f('venue', 'From', 'Kamino', 'select', { options: YIELD.slice(1) })] },
     }),
   },
   {
     test: /\b(liquidity|pool|lp)\b/i,
     reply: (_m, ctx, input) => {
-      const pool = POOLS.find((p) => input.toLowerCase().includes(p.toLowerCase())) ?? 'Uniswap'
+      const pool = POOLS.find((p) => input.toLowerCase().includes(p.toLowerCase())) ?? 'Raydium'
       return {
         text: `I set up the liquidity position. ${sign(ctx)}`,
         plan: { kind: 'liquidity', mode: 'approval', fields: [f('amount', 'Amount', '100', 'amount'), f('token', 'Token', 'USDC', 'token', { options: TOKENS }), f('pool', 'Pool', pool, 'select', { options: POOLS })], risk: 'Liquidity positions can lose value when prices move apart.' },
@@ -312,7 +321,7 @@ const rules: Rule[] = [
       const venue = YIELD.find((p) => input.toLowerCase().includes(p.toLowerCase())) ?? 'Best yield'
       return {
         text: `I ranked the options and set up the deposit. ${sign(ctx)}`,
-        steps: ['Scanned lending markets and Pendle', 'Ranked by rate and risk', 'Ready for your signature'],
+        steps: ['Scanned Kamino, Jito and Meteora', 'Ranked by rate and risk', 'Ready for your signature'],
         plan: { kind: 'deposit', mode: 'approval', fields: [f('amount', 'Amount', num(m[2], '100'), 'amount'), f('token', 'Token', token(m[3], 'USDC'), 'token', { options: TOKENS }), f('venue', 'Venue', venue, 'select', { options: YIELD })] },
       }
     },
@@ -334,24 +343,17 @@ const rules: Rule[] = [
   },
   {
     test: /\bscore\b|\brates?\b/i,
-    reply: () => ({ text: 'Your Plainly Score powers no-collateral pre-qualification.', card: 'score' }),
+    reply: () => ({ text: 'Your TalkenFi Score powers no-collateral pre-qualification.', card: 'score' }),
   },
   {
     test: /\b(mcp|agent|claude|tool)\b/i,
-    reply: () => ({ text: 'Give your own AI agent access to Plainly actions through the MCP server. Your signature is still required.', card: 'mcp' }),
-  },
-  {
-    test: /\b(polymarket|prediction|predict|odds)\b/i,
-    reply: (_m, ctx) => ({
-      text: `I set up a prediction position. ${sign(ctx)}`,
-      plan: { kind: 'predict', mode: 'approval', fields: [f('market', 'Market', '', 'text'), f('outcome', 'Outcome', 'Yes', 'select', { options: ['Yes', 'No'] }), f('amount', 'Stake', '10', 'amount', { suffix: 'USDC' })] },
-    }),
+    reply: () => ({ text: 'Give your own AI agent access to TalkenFi actions through the MCP server. Your signature is still required.', card: 'mcp' }),
   },
 ]
 
 const HELP: AgentReply = {
   text: 'Tell me what you want to do. For example:',
-  suggestions: ['What’s in my wallet?', 'Send 0.001 ETH to 0x', 'Swap 100 USDC for ETH', 'Where can my USDC earn the most?', 'Am I pre-qualified for an auto loan?'],
+  suggestions: ['What’s in my wallet?', 'Send 0.01 SOL to ', 'Swap 100 USDC for SOL', 'Where can my USDC earn the most?', 'Am I pre-qualified for an auto loan?'],
 }
 
 export function planReply(input: string, ctx: AgentContext): AgentReply {

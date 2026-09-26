@@ -13,7 +13,7 @@ import { useSeo } from '@/lib/seo'
 /** The whole dashboard (wallet SDKs included) lives in this lazily loaded chunk. */
 export default function AppRoot() {
   // The dashboard is personal (wallet, chats), so it stays out of search results.
-  useSeo({ title: 'Plainly App', description: 'Chat with the Plainly agent, sign transactions and manage your portfolio on Robinhood Chain.', path: '/app', noindex: true })
+  useSeo({ title: 'TalkenFi App', description: 'Chat with the TalkenFi agent, sign transactions and manage your portfolio on Solana.', path: '/app', noindex: true })
 
   return (
     <WalletProvider>

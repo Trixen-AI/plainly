@@ -15,7 +15,8 @@ export type PendingTx = {
   /** Transaction hash for transfers, signature for approvals. */
   hash?: string
   signature?: string
-  chainId?: number
+  /** Solana network (cluster) id the action was signed on. */
+  networkId?: string
   error?: string
   at: number
 }
@@ -30,7 +31,7 @@ type Action =
   | { type: 'updateTx'; id: string; patch: Partial<PendingTx> }
   | { type: 'removeTx'; id: string }
 
-const KEY = 'plainly.app.v1'
+const KEY = 'talkenfi.app.v1'
 const uid = () => (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`)
 
 function load(): State {

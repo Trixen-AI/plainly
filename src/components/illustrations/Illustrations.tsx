@@ -1,9 +1,11 @@
 import type { ReactNode, SVGProps } from 'react'
 
-const S = '#084b32' // stroke
-const C = '#fff8ea' // cream fill
-const M = '#d9f3e2' // mint fill
-const L = '#d4f36b' // lime accent
+const S = '#e4ddf9' // stroke / ink (light lavender on the dark ground)
+const C = '#1d1a2b' // surface fill
+const M = '#2c2352' // violet tint fill
+const L = '#55e9ab' // mint accent
+const W = '#262236' // UI cards inside the art
+const D = '#0b0a10' // ink on mint accent shapes (on-accent)
 
 function Svg({ children, ...props }: SVGProps<SVGSVGElement> & { children: ReactNode }) {
   return (
@@ -44,23 +46,23 @@ export function TradeIllustration() {
       <path d="M-10 250 Q 150 170 300 250 T 610 250" stroke={S} strokeOpacity=".25" strokeWidth="1.5" strokeDasharray="6 8" />
       <Bubble x={170} y={70} w={260} h={70} />
       <text x={196} y={112} fontSize="18" fill={S} fontWeight="600" fontFamily="Inter Variable, Inter, sans-serif">
-        swap 200 USDC for ETH
+        swap 200 USDC for SOL
       </text>
       <rect x="414" y="96" width="2" height="22" fill={S}>
         <animate attributeName="opacity" values="1;0;1" dur="1.1s" repeatCount="indefinite" />
       </rect>
       <Coin cx={150} cy={265} r={48} label="USDC" />
-      <Coin cx={450} cy={265} r={48} label="ETH" fill={M} />
+      <Coin cx={450} cy={265} r={48} label="SOL" fill={M} />
       <path d="M212 238 C 260 200, 340 200, 388 238" stroke={S} strokeWidth="2" />
       <path d="m378 226 10 12-15 4" stroke={S} strokeWidth="2" />
       <path d="M388 294 C 340 332, 260 332, 212 294" stroke={S} strokeWidth="2" strokeDasharray="5 6" />
       <path d="m222 306-10-12 15-4" stroke={S} strokeWidth="2" />
       <g transform="translate(262 240)">
         <rect width="76" height="52" rx="12" fill={L} stroke={S} strokeWidth="2" />
-        <text x="38" y="23" textAnchor="middle" fontSize="11" fill={S} fontWeight="600" fontFamily="Inter Variable, Inter, sans-serif">
+        <text x="38" y="23" textAnchor="middle" fontSize="11" fill={D} fontWeight="600" fontFamily="Inter Variable, Inter, sans-serif">
           best route
         </text>
-        <text x="38" y="40" textAnchor="middle" fontSize="13" fill={S} fontWeight="700" fontFamily="Inter Variable, Inter, sans-serif">
+        <text x="38" y="40" textAnchor="middle" fontSize="13" fill={D} fontWeight="700" fontFamily="Inter Variable, Inter, sans-serif">
           0.3% fee
         </text>
       </g>
@@ -79,7 +81,7 @@ export function BorrowIllustration() {
       {layer(140, C)}
       <path d="M150 215v14l150 75 150-75v-14" stroke={S} strokeWidth="2" />
       <g transform="translate(252 170)">
-        <path d="M0 26 48 2l48 24-48 24z" fill="#fff" stroke={S} strokeWidth="2" />
+        <path d="M0 26 48 2l48 24-48 24z" fill={W} stroke={S} strokeWidth="2" />
         <path d="M30 26h36M48 17v18" stroke={S} strokeWidth="2" />
       </g>
       {/* collateral chips */}
@@ -97,10 +99,10 @@ export function BorrowIllustration() {
       <path d="M476 118c0 40-60 60-110 70" stroke={S} strokeWidth="2" strokeDasharray="5 6" />
       {/* health gauge */}
       <g transform="translate(220 318)">
-        <rect width="160" height="54" rx="14" fill="#fff" stroke={S} strokeWidth="2" />
+        <rect width="160" height="54" rx="14" fill={W} stroke={S} strokeWidth="2" />
         <text x="16" y="22" fontSize="11" fill={S} fontWeight="600" fontFamily="Inter Variable, Inter, sans-serif">Loan health</text>
         <rect x="16" y="32" width="128" height="8" rx="4" fill={M} />
-        <rect x="16" y="32" width="94" height="8" rx="4" fill="#16a060" />
+        <rect x="16" y="32" width="94" height="8" rx="4" fill={L} />
       </g>
     </Svg>
   )
@@ -123,7 +125,7 @@ export function EarnIllustration() {
       <path d="M162 250 232 212 302 232 372 172 442 128" stroke={S} strokeWidth="2.5" />
       <path d="m428 124 14 4-4 14" stroke={S} strokeWidth="2.5" />
       <g transform="translate(372 50)">
-        <rect width="170" height="58" rx="14" fill="#fff" stroke={S} strokeWidth="2" />
+        <rect width="170" height="58" rx="14" fill={W} stroke={S} strokeWidth="2" />
         <text x="18" y="24" fontSize="11" fontWeight="600" fill={S} fontFamily="Inter Variable, Inter, sans-serif">Top pick for USDC</text>
         <text x="18" y="45" fontSize="18" fontWeight="700" fill={S} fontFamily="Inter Variable, Inter, sans-serif">Ranked #1</text>
         <circle cx="146" cy="36" r="10" fill={L} stroke={S} strokeWidth="2" />
@@ -154,7 +156,7 @@ export function LoansIllustration() {
     <Svg viewBox="0 0 600 400" className="h-full w-full">
       <g transform="translate(220 70)">
         <rect x="8" y="8" width="160" height="220" rx="16" fill={S} opacity=".12" />
-        <rect width="160" height="220" rx="16" fill="#fff" stroke={S} strokeWidth="2" />
+        <rect width="160" height="220" rx="16" fill={W} stroke={S} strokeWidth="2" />
         <text x="18" y="34" fontSize="13" fontWeight="700" fill={S} fontFamily="Inter Variable, Inter, sans-serif">Pre-qualified</text>
         {[0, 1, 2, 3].map((i) => (
           <g key={i} transform={`translate(18 ${58 + i * 38})`}>
@@ -185,14 +187,29 @@ export function AgentStackIllustration() {
   const plate = (y: number, fill: string, op = 1) => (
     <path d={`M300 ${y}l200 100-200 100-200-100z`} fill={fill} stroke={S} strokeWidth="2" opacity={op} />
   )
+  // Labels cross plate edges, so each gets a halo in the section colour (mist) to stay legible.
+  const label = (x: number, y: number, t: string, size = 13, anchor: 'start' | 'middle' = 'start') => (
+    <text
+      x={x}
+      y={y}
+      textAnchor={anchor}
+      fontSize={size}
+      fontWeight="600"
+      fill={S}
+      stroke="#18161f"
+      strokeWidth="5"
+      strokeLinejoin="round"
+      paintOrder="stroke"
+      fontFamily="Inter Variable, Inter, sans-serif"
+    >
+      {t}
+    </text>
+  )
   return (
     <Svg viewBox="0 0 600 520" className="h-full w-full">
       <path d="M40 430 300 300l260 130-260 130z" stroke={S} strokeOpacity=".5" strokeWidth="1.5" />
-      <text x="300" y="455" textAnchor="middle" fontSize="18" fontWeight="600" fill={S} fontFamily="Inter Variable, Inter, sans-serif">
-        Robinhood Chain
-      </text>
-      {plate(250, '#b4e6c6', 0.7)}
-      {plate(236, '#b4e6c6', 0.85)}
+      {plate(250, '#3a2d6b', 0.7)}
+      {plate(236, '#3a2d6b', 0.85)}
       {plate(170, M)}
       {plate(90, C)}
       <g stroke={S} strokeWidth="2">
@@ -202,19 +219,20 @@ export function AgentStackIllustration() {
       <g transform="translate(206 250)">
         {[0, 1, 2].map((i) => (
           <g key={i} transform={`translate(${i * 64} ${i % 2 ? -8 : 0})`}>
-            <path d="M24 0 48 12 24 24 0 12z" fill="#fff" stroke={S} strokeWidth="1.8" />
+            <path d="M24 0 48 12 24 24 0 12z" fill={W} stroke={S} strokeWidth="1.8" />
           </g>
         ))}
       </g>
       {/* chat on top plate */}
       <g transform="translate(236 150)">
-        <rect width="128" height="52" rx="14" fill="#fff" stroke={S} strokeWidth="2" />
+        <rect width="128" height="52" rx="14" fill={W} stroke={S} strokeWidth="2" />
         <path d="M16 20h72M16 32h48" stroke={S} strokeWidth="2" />
         <circle cx="108" cy="26" r="9" fill={L} stroke={S} strokeWidth="1.8" />
       </g>
-      <text x="120" y="176" fontSize="13" fontWeight="600" fill={S} fontFamily="Inter Variable, Inter, sans-serif">you say it</text>
-      <text x="92" y="262" fontSize="13" fontWeight="600" fill={S} fontFamily="Inter Variable, Inter, sans-serif">agent routes it</text>
-      <text x="410" y="336" fontSize="13" fontWeight="600" fill={S} fontFamily="Inter Variable, Inter, sans-serif">you sign it</text>
+      {label(120, 176, 'you say it')}
+      {label(92, 262, 'agent routes it')}
+      {label(410, 336, 'you sign it')}
+      {label(300, 492, 'Solana', 18, 'middle')}
       <path d="M470 90v120" stroke={S} strokeWidth="2" strokeDasharray="4 6" />
       <circle cx="470" cy="80" r="10" fill={L} stroke={S} strokeWidth="2" />
     </Svg>
@@ -251,12 +269,12 @@ export function McpIllustration() {
       <g transform="translate(240 230)">
         <rect x="6" y="8" width="120" height="112" rx="24" fill={S} opacity=".14" />
         <rect width="120" height="112" rx="24" fill={L} stroke={S} strokeWidth="2" />
-        <text x="60" y="52" textAnchor="middle" fontSize="16" fontWeight="700" fill={S} fontFamily="Inter Variable, Inter, sans-serif">Plainly</text>
-        <text x="60" y="74" textAnchor="middle" fontSize="16" fontWeight="700" fill={S} fontFamily="Inter Variable, Inter, sans-serif">MCP</text>
+        <text x="60" y="52" textAnchor="middle" fontSize="16" fontWeight="700" fill={D} fontFamily="Inter Variable, Inter, sans-serif">TalkenFi</text>
+        <text x="60" y="74" textAnchor="middle" fontSize="16" fontWeight="700" fill={D} fontFamily="Inter Variable, Inter, sans-serif">MCP</text>
       </g>
       {tools.map((n) => (
         <g key={n.t} transform={`translate(${n.x - 58} ${n.y - 22})`}>
-          <rect width="116" height="44" rx="12" fill="#fff" stroke={S} strokeWidth="2" />
+          <rect width="116" height="44" rx="12" fill={W} stroke={S} strokeWidth="2" />
           <text x="18" y="28" fontSize="14" fontWeight="600" fill={S} fontFamily="ui-monospace, Menlo, monospace">{n.t}()</text>
         </g>
       ))}
@@ -270,7 +288,7 @@ export function ChainIllustration() {
       <g transform="translate(70 70)">
         <rect x="8" y="10" width="250" height="150" rx="22" fill={S} opacity=".12" />
         <rect width="250" height="150" rx="22" fill={M} stroke={S} strokeWidth="2" />
-        <rect x="18" y="20" width="176" height="42" rx="14" fill="#fff" stroke={S} strokeWidth="1.8" />
+        <rect x="18" y="20" width="176" height="42" rx="14" fill={W} stroke={S} strokeWidth="1.8" />
         <text x="32" y="46" fontSize="13" fontWeight="600" fill={S} fontFamily="Inter Variable, Inter, sans-serif">claim all my rewards</text>
         <rect x="70" y="80" width="162" height="52" rx="14" fill={C} stroke={S} strokeWidth="1.8" />
         <path d="M86 100h86M86 114h54" stroke={S} strokeWidth="2" />
@@ -283,15 +301,15 @@ export function ChainIllustration() {
       ))}
       <g transform="translate(100 372)">
         <rect width="200" height="50" rx="25" fill={L} stroke={S} strokeWidth="2" />
-        <path d="m22 25 7 7 14-14" stroke={S} strokeWidth="2.2" />
-        <text x="56" y="31" fontSize="17" fontWeight="600" fill={S} fontFamily="Inter Variable, Inter, sans-serif">Signed by you</text>
+        <path d="m22 25 7 7 14-14" stroke={D} strokeWidth="2.2" />
+        <text x="56" y="31" fontSize="17" fontWeight="600" fill={D} fontFamily="Inter Variable, Inter, sans-serif">Signed by you</text>
       </g>
       {[120, 170, 230, 280].map((x, i) => (
         <path key={x} d={`M${x} ${436}v${60 + (i % 2) * 30}`} stroke={S} strokeWidth="1.6" strokeDasharray="4 6" />
       ))}
-      <path d="M200 520 390 610 200 700 10 610z" fill="#fff" stroke={S} strokeWidth="2" />
+      <path d="M200 520 390 610 200 700 10 610z" fill={W} stroke={S} strokeWidth="2" />
       <text x="200" y="616" textAnchor="middle" fontSize="18" fontWeight="600" fill={S} fontFamily="Inter Variable, Inter, sans-serif">
-        Robinhood Chain
+        Solana
       </text>
     </Svg>
   )
@@ -302,14 +320,14 @@ export function ChainIllustration() {
 export function IntentsScene() {
   return (
     <Svg viewBox="0 0 396 300" className="h-full w-full">
-      <rect x="40" y="40" width="316" height="220" rx="20" fill="#fff" stroke={S} strokeWidth="2" />
+      <rect x="40" y="40" width="316" height="220" rx="20" fill={W} stroke={S} strokeWidth="2" />
       <g transform="translate(64 70)">
         <rect width="200" height="40" rx="14" fill={M} stroke={S} strokeWidth="1.6" />
         <text x="16" y="25" fontSize="13" fontWeight="600" fill={S} fontFamily="Inter Variable, Inter, sans-serif">send Maya $40 for dinner</text>
       </g>
       <g transform="translate(120 128)">
         <rect width="212" height="96" rx="14" fill={C} stroke={S} strokeWidth="1.6" />
-        {['To: maya.eth', 'Amount: 40 USDC', 'Network fee: low'].map((t, i) => (
+        {['To: maya.sol', 'Amount: 40 USDC', 'Network fee: low'].map((t, i) => (
           <text key={t} x="16" y={28 + i * 24} fontSize="12" fontWeight="500" fill={S} fontFamily="Inter Variable, Inter, sans-serif">{t}</text>
         ))}
         <circle cx="186" cy="24" r="10" fill={L} stroke={S} strokeWidth="1.6" />
@@ -321,13 +339,13 @@ export function IntentsScene() {
 export function ToolsScene() {
   return (
     <Svg viewBox="0 0 396 300" className="h-full w-full">
-      <rect x="40" y="40" width="316" height="220" rx="20" fill="#fff" stroke={S} strokeWidth="2" />
+      <rect x="40" y="40" width="316" height="220" rx="20" fill={W} stroke={S} strokeWidth="2" />
       <circle cx="130" cy="150" r="56" fill={M} stroke={S} strokeWidth="2" />
       <path d="M130 94a56 56 0 0 1 53 38l-53 18z" fill={L} stroke={S} strokeWidth="2" />
       <path d="M130 150 92 191" stroke={S} strokeWidth="2" />
       {[0, 1, 2, 3].map((i) => (
         <g key={i} transform={`translate(214 ${88 + i * 34})`}>
-          <rect width="112" height="22" rx="6" fill={i === 1 ? C : '#fff'} stroke={S} strokeWidth="1.4" />
+          <rect width="112" height="22" rx="6" fill={i === 1 ? C : W} stroke={S} strokeWidth="1.4" />
           <rect x="10" y="8" width={70 - i * 12} height="6" rx="3" fill={S} opacity=".45" />
         </g>
       ))}
@@ -338,7 +356,7 @@ export function ToolsScene() {
 export function SupportScene() {
   return (
     <Svg viewBox="0 0 396 300" className="h-full w-full">
-      <rect x="40" y="40" width="316" height="220" rx="20" fill="#fff" stroke={S} strokeWidth="2" />
+      <rect x="40" y="40" width="316" height="220" rx="20" fill={W} stroke={S} strokeWidth="2" />
       <g transform="translate(64 68)">
         <rect width="170" height="44" rx="14" fill={C} stroke={S} strokeWidth="1.6" />
         <text x="16" y="27" fontSize="13" fontWeight="600" fill={S} fontFamily="Inter Variable, Inter, sans-serif">why did my swap fail?</text>
@@ -349,7 +367,7 @@ export function SupportScene() {
       </g>
       <g transform="translate(64 212)">
         <rect width="118" height="28" rx="14" fill={L} stroke={S} strokeWidth="1.6" />
-        <text x="16" y="19" fontSize="11" fontWeight="700" fill={S} fontFamily="Inter Variable, Inter, sans-serif">Priority support</text>
+        <text x="16" y="19" fontSize="11" fontWeight="700" fill={D} fontFamily="Inter Variable, Inter, sans-serif">Priority support</text>
       </g>
     </Svg>
   )
@@ -401,8 +419,8 @@ export function HeroWaves() {
           cy="760"
           rx={260 + i * 120}
           ry={180 + i * 70}
-          stroke={i % 3 === 0 ? '#fff3d6' : '#ffffff'}
-          strokeOpacity={0.9 - i * 0.07}
+          stroke={i % 3 === 0 ? '#9945ff' : '#ffffff'}
+          strokeOpacity={0.26 - i * 0.022}
           strokeWidth={i % 3 === 0 ? 3 : 2}
           fill="none"
         />
@@ -412,7 +430,7 @@ export function HeroWaves() {
           key={`t${i}`}
           d={`M${720 - (200 + i * 150)} 760 Q 720 ${260 - i * 40} ${720 + 200 + i * 150} 760`}
           stroke="#ffffff"
-          strokeOpacity=".45"
+          strokeOpacity=".1"
           strokeWidth="1.5"
           fill="none"
         />

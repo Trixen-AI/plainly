@@ -1,10 +1,10 @@
-export const SITE_URL = 'https://plainly.chat'
-export const SITE_NAME = 'Plainly'
-export const X_URL = 'https://x.com/PlainlyChat'
-export const X_HANDLE = '@PlainlyChat'
+export const SITE_URL = 'https://talkenhub.xyz'
+export const SITE_NAME = 'TalkenFi'
+export const X_URL = 'https://x.com/TalkenFi_xyz'
+export const X_HANDLE = '@TalkenFi_xyz'
 export const APP_URL = '/app'
 export const DOCS_URL = '/docs'
-export const ROBINHOOD_CHAIN_URL = 'https://robinhood.com/chain'
+export const SOLANA_DEV_URL = 'https://solana.com/developers'
 
 export type RichText = Array<string | { b: string } | { i: string } | { code: string } | { link: { label: string; to: string } }>
 
@@ -22,7 +22,7 @@ export const navGroups: NavGroup[] = [
         links: [
           { label: 'Swap tokens', hint: 'Best route, one sentence', href: '/docs/trading#swap' },
           { label: 'Limit order', hint: 'Buy or sell at your price', href: '/docs/trading#limit-orders' },
-          { label: 'Bridge', hint: 'Bring assets to Robinhood Chain', href: '/docs/trading#bridge' },
+          { label: 'Bridge', hint: 'Bring assets to Solana', href: '/docs/trading#bridge' },
           { label: 'Send', hint: 'Pay anyone by name or address', href: '/docs/trading#send' },
         ],
       },
@@ -90,8 +90,8 @@ export const navGroups: NavGroup[] = [
         title: 'Learn',
         links: [
           { label: 'Docs', hint: 'How the agent works', href: '/docs' },
-          { label: 'Plainly MCP', hint: 'Plug into your own agent', href: '/docs/mcp' },
-          { label: 'Build on Robinhood Chain', hint: 'Developer resources', href: 'https://robinhood.com/chain' },
+          { label: 'TalkenFi MCP', hint: 'Plug into your own agent', href: '/docs/mcp' },
+          { label: 'Build on Solana', hint: 'Developer resources', href: 'https://solana.com/developers' },
         ],
       },
       {
@@ -111,7 +111,7 @@ export const hero = {
   titleTop: 'Your money,',
   titleBottom: 'in plain words',
   body: [
-    { b: 'Plainly' },
+    { b: 'TalkenFi' },
     ' is an AI agent that turns everyday sentences into onchain transactions. Swap, bridge, borrow, lend and earn, or ',
     { b: 'pre-qualify for a no-collateral loan' },
     ', with ',
@@ -122,25 +122,16 @@ export const hero = {
   secondary: 'Check my rates',
 }
 
-export const protocols = [
-  'Aave',
-  'Morpho',
-  'Uniswap',
-  'Pendle',
-  'Silo',
-  'Aerodrome',
-  'PancakeSwap',
-  'Polymarket',
-]
+export const protocols = ['Jupiter', 'Raydium', 'Orca', 'Meteora', 'Kamino', 'Drift', 'Jito']
 
 export const stats = [
   { value: '40+', label: 'actions you can ask for' },
-  { value: '8', label: 'protocols in a single chat' },
+  { value: '7', label: 'protocols in a single chat' },
   { value: '4', label: 'loan types to pre-qualify for' },
 ]
 
 export const statement = {
-  highlight: 'Plainly reads what you mean',
+  highlight: 'TalkenFi reads what you mean',
   rest: 'and turns it into a transaction you can review, sign and track',
 }
 
@@ -156,12 +147,12 @@ export const features: Feature[] = [
     id: 'trade',
     title: 'Trade by typing a sentence',
     body: [
-      'Tell Plainly ',
-      { i: '“swap 200 USDC for ETH”' },
+      'Tell TalkenFi ',
+      { i: '“swap 200 USDC for SOL”' },
       ' and it finds the route, quotes the price and prepares the transaction. Place ',
       { b: 'limit orders' },
       ', ',
-      { b: 'bridge to Robinhood Chain' },
+      { b: 'bridge to Solana' },
       ', send to a friend, or open a ',
       { b: 'loop or short' },
       ', all from the same chat window.',
@@ -176,9 +167,9 @@ export const features: Feature[] = [
       { b: 'tokenized stocks' },
       ' to work as collateral, then ',
       { b: 'roll over or repay' },
-      ' a loan with one message. Plainly compares terms across ',
-      { b: 'Aave, Morpho and Silo' },
-      ' so you never juggle three tabs to find a fair rate.',
+      ' a loan with one message. TalkenFi compares terms across ',
+      { b: 'Kamino and Drift' },
+      ' so you never have to juggle tabs to find a fair rate.',
     ],
     link: 'Explore borrowing',
   },
@@ -189,7 +180,7 @@ export const features: Feature[] = [
       'Ask ',
       { i: '“where can my USDC earn the most?”' },
       ' and get a ranked answer from lending markets, ',
-      { b: 'Pendle' },
+      { b: 'Jito staking' },
       ' and ',
       { b: 'DEX liquidity pools' },
       '. Deposit, withdraw and claim rewards, or ',
@@ -229,7 +220,7 @@ export const prompts = [
   },
   {
     id: 'bridge',
-    quote: 'Bridge 0.5 ETH to Robinhood Chain and buy $300 of stocks with it.',
+    quote: 'Bridge 200 USDC to Solana and buy $150 of tokenized stocks with it.',
     steps: ['Bridge route found', 'Swap to stablecoin queued', 'Two steps, one review'],
     tag: 'Bridge & buy',
   },
@@ -237,37 +228,37 @@ export const prompts = [
 
 export const products = {
   agent: {
-    name: 'Plainly Agent',
+    name: 'TalkenFi Agent',
     title: 'One chat for every onchain move',
     body: 'The agent understands intent, picks the right protocol, simulates the outcome and shows exactly what will happen before you sign. Your wallet, your keys, your call.',
     cta: 'Launch the agent',
     href: '/app',
   },
   score: {
-    name: 'Plainly Score',
+    name: 'TalkenFi Score',
     title: 'See what you qualify for',
     body: 'Your onchain history and the accounts you choose to connect build a private profile that unlocks no-collateral pre-qualification and clearer rate estimates. Check it anytime from your account.',
     cta: 'See my score',
     href: '/app/score',
   },
   mcp: {
-    name: 'Plainly MCP',
+    name: 'TalkenFi MCP',
     title: 'Give any AI agent a wallet that listens',
-    body: 'Add the Plainly MCP server to the agent you already use and call swaps, loans and yield actions as tools. Launch custom agents that act onchain with the same review-before-you-sign safety.',
-    cta: 'Add Plainly MCP',
+    body: 'Add the TalkenFi MCP server to the agent you already use and call swaps, loans and yield actions as tools. Launch custom agents that act onchain with the same review-before-you-sign safety.',
+    cta: 'Add TalkenFi MCP',
     href: '/app/mcp',
   },
 }
 
 export const chain = {
   lead: 'Settled on',
-  name: 'Robinhood Chain',
+  name: 'Solana',
   title: 'Where stocks and crypto share one wallet',
   columns: [
     {
       strong: 'Low fees make small, frequent moves worth it.',
       body: [
-        'Plainly settles on Robinhood Chain, so ',
+        'TalkenFi settles on Solana, so ',
         { b: 'rebalancing' },
         ', topping up a loan or ',
         { b: 'claiming rewards' },
@@ -281,14 +272,14 @@ export const chain = {
       ] as RichText,
     },
   ],
-  cta: 'Build on Robinhood Chain',
+  cta: 'Build on Solana',
 }
 
 export const capabilities = [
   {
     id: 'intents',
     title: 'Plain-language intents',
-    body: 'No contract addresses, no slippage sliders. Describe the outcome you want and Plainly fills in the technical details.',
+    body: 'No contract addresses, no slippage sliders. Describe the outcome you want and TalkenFi fills in the technical details.',
   },
   {
     id: 'tools',
@@ -306,7 +297,7 @@ export const security = [
   {
     id: 'custody',
     title: 'Non-custodial by design',
-    body: 'Plainly never holds your funds. Assets stay in your wallet and every action needs your signature.',
+    body: 'TalkenFi never holds your funds. Assets stay in your wallet and every action needs your signature.',
   },
   {
     id: 'simulate',
@@ -373,7 +364,7 @@ export const footerColumns: { title: string; links: { label: string; href: strin
       { label: 'Ask a question', href: '/docs/faq' },
       { label: 'Request a beta feature', href: '/docs/faq' },
       { label: 'Priority support', href: '/docs/faq' },
-      { label: 'Build on Robinhood Chain', href: 'https://robinhood.com/chain' },
+      { label: 'Build on Solana', href: 'https://solana.com/developers' },
     ],
   },
 ]

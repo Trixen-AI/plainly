@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://plainly.chat/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://plainly.chat/docs/introduction</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://plainly.chat/docs/quickstart</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://plainly.chat/docs/credits</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://plainly.chat/docs/writing-prompts</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://plainly.chat/docs/trading</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://plainly.chat/docs/borrowing</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://plainly.chat/docs/earning</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://plainly.chat/docs/stocks</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://plainly.chat/docs/pre-qualification</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://plainly.chat/docs/plainly-score</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://plainly.chat/docs/mcp</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://plainly.chat/docs/security</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://plainly.chat/docs/protocols</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://plainly.chat/docs/faq</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://talkenhub.xyz/</loc><lastmod>2026-09-26</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://talkenhub.xyz/docs/introduction</loc><lastmod>2026-09-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://talkenhub.xyz/docs/quickstart</loc><lastmod>2026-09-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://talkenhub.xyz/docs/credits</loc><lastmod>2026-09-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://talkenhub.xyz/docs/writing-prompts</loc><lastmod>2026-09-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://talkenhub.xyz/docs/trading</loc><lastmod>2026-09-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://talkenhub.xyz/docs/borrowing</loc><lastmod>2026-09-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://talkenhub.xyz/docs/earning</loc><lastmod>2026-09-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://talkenhub.xyz/docs/stocks</loc><lastmod>2026-09-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://talkenhub.xyz/docs/pre-qualification</loc><lastmod>2026-09-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://talkenhub.xyz/docs/talkenfi-score</loc><lastmod>2026-09-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://talkenhub.xyz/docs/mcp</loc><lastmod>2026-09-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://talkenhub.xyz/docs/security</loc><lastmod>2026-09-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://talkenhub.xyz/docs/protocols</loc><lastmod>2026-09-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://talkenhub.xyz/docs/faq</loc><lastmod>2026-09-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>
