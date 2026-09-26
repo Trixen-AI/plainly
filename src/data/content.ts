@@ -5,6 +5,8 @@ export const X_HANDLE = '@TalkenFi_xyz'
 export const APP_URL = '/app'
 export const DOCS_URL = '/docs'
 export const SOLANA_DEV_URL = 'https://solana.com/developers'
+/** TalkenFi token contract address (Solana mint), shown in the hero with a copy button. */
+export const CONTRACT_ADDRESS = 'FCwEuxgGDCwJP7dj2zXemvicM4X5nGMHjeBE5mempump'
 
 export type RichText = Array<string | { b: string } | { i: string } | { code: string } | { link: { label: string; to: string } }>
 

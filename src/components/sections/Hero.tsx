@@ -1,9 +1,10 @@
+import { useEffect, useRef, useState } from 'react'
 import { motion } from 'motion/react'
-import { APP_URL, hero, protocols, stats, statement } from '@/data/content'
+import { APP_URL, CONTRACT_ADDRESS, hero, protocols, stats, statement } from '@/data/content'
 import { HeroWaves } from '@/components/illustrations/Illustrations'
 import { ProtocolLogo } from '@/components/ProtocolLogo'
 import { Button, Container, Highlight, Reveal, Rich } from '@/components/ui/primitives'
-import { EASE } from '@/lib/utils'
+import { cn, EASE } from '@/lib/utils'
 
 export function Hero() {
   return (
@@ -37,6 +38,7 @@ export function Hero() {
               {hero.secondary}
             </Button>
           </div>
+          <ContractAddress address={CONTRACT_ADDRESS} />
         </motion.div>
       </div>
       {/* curved bottom edge */}
@@ -44,6 +46,57 @@ export function Hero() {
         <path d="M0 90V52C360 -10 1080 -10 1440 52v38z" fill="#0b0a10" />
       </svg>
     </section>
+  )
+}
+
+const shortAddress = (a: string) => `${a.slice(0, 6)}...${a.slice(-6)}`
+
+/** Token contract address with a copy button. Full address from sm up; shortened on phones so it never overflows. */
+function ContractAddress({ address }: { address: string }) {
+  const [copied, setCopied] = useState(false)
+  const timer = useRef<number | undefined>(undefined)
+  useEffect(() => () => window.clearTimeout(timer.current), [])
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(address)
+      setCopied(true)
+      window.clearTimeout(timer.current)
+      timer.current = window.setTimeout(() => setCopied(false), 1600)
+    } catch {
+      setCopied(false)
+    }
+  }
+
+  return (
+    <div className="flex max-w-full items-center gap-3 rounded-full bg-surface/70 py-1.5 pr-1.5 pl-4 ring-1 ring-line backdrop-blur-sm">
+      <span className="shrink-0 text-xs font-semibold tracking-[0.12em] text-mint uppercase">CA</span>
+      <code className="min-w-0 truncate font-mono text-sm text-ink" title={address}>
+        <span className="hidden sm:inline">{address}</span>
+        <span className="sm:hidden">{shortAddress(address)}</span>
+      </code>
+      <button
+        type="button"
+        onClick={copy}
+        aria-label={copied ? 'Contract address copied' : 'Copy contract address'}
+        className={cn(
+          'flex h-8 shrink-0 items-center gap-1.5 rounded-full px-3 text-xs font-semibold ring-1 transition-colors',
+          copied ? 'bg-mint text-on-accent ring-mint' : 'text-ink-soft ring-line hover:bg-mist hover:text-ink',
+        )}
+      >
+        {copied ? (
+          <svg viewBox="0 0 16 16" className="size-3.5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+            <path d="m3.5 8.5 3 3 6-7" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        ) : (
+          <svg viewBox="0 0 16 16" className="size-3.5" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
+            <rect x="5.5" y="5.5" width="8" height="8" rx="2" />
+            <path d="M10.5 3.5v-.5a1.5 1.5 0 0 0-1.5-1.5H4A1.5 1.5 0 0 0 2.5 3v5A1.5 1.5 0 0 0 4 9.5h.5" />
+          </svg>
+        )}
+        <span aria-live="polite">{copied ? 'Copied' : 'Copy'}</span>
+      </button>
+    </div>
   )
 }
 
